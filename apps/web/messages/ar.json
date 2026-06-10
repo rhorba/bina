@@ -1,0 +1,262 @@
+{
+  "nav": {
+    "radar": "رادار المناقصات",
+    "groupements": "مجموعاتي",
+    "compliance": "ملفي",
+    "dashboard": "لوحة القيادة",
+    "savedSearches": "تنبيهاتي",
+    "tracking": "مناقصاتي المتابَعة",
+    "profile": "ملفي الشخصي",
+    "admin": "الإدارة",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب"
+  },
+  "tender": {
+    "title": "طلب العروض",
+    "plural": "طلبات العروض",
+    "type": {
+      "travaux": "أشغال",
+      "fournitures": "توريدات",
+      "services": "خدمات",
+      "conception_realisation": "تصميم وإنجاز"
+    },
+    "status": {
+      "open": "مفتوح",
+      "closing_soon": "الإغلاق قريب",
+      "closed": "مغلق",
+      "awarded": "مُسنَد",
+      "cancelled": "ملغى"
+    },
+    "deadline": "الإيداع قبل",
+    "daysLeft": "{n} أيام متبقية",
+    "urgent": "عاجل — {n} أيام",
+    "today": "اليوم",
+    "expired": "منتهي الصلاحية",
+    "lots": "الأجزاء",
+    "lot": "الجزء",
+    "maitreDOuvrage": "صاحب المشروع",
+    "maitreDOuvrageType": {
+      "commune": "جماعة",
+      "ministere": "وزارة",
+      "etablissement_public": "مؤسسة عمومية",
+      "prive": "خاص"
+    },
+    "region": "الجهة",
+    "budget": "المبلغ التقديري",
+    "download": "تحميل الملف",
+    "track": "متابعة هذا العرض",
+    "untrack": "إلغاء المتابعة",
+    "noResults": "لا توجد طلبات عروض",
+    "noResultsHint": "عدّل الفلاتر لتوسيع البحث.",
+    "publishedAt": "نُشر في",
+    "openingDate": "فتح الأظرفة في",
+    "requiredSpecialties": "التخصصات المطلوبة",
+    "requiredFnbtp": "مؤهل FNBTP المطلوب",
+    "createGroupement": "إنشاء تجمع لهذا العرض",
+    "trackingStatus": {
+      "watching": "تحت المراقبة",
+      "bidding": "الترشح جارٍ",
+      "submitted": "تم إيداع الترشح",
+      "won": "تم الفوز بالصفقة",
+      "lost": "غير مقبول",
+      "withdrawn": "تم الانسحاب"
+    }
+  },
+  "specialty": {
+    "genie_civil": "الهندسة المدنية",
+    "batiment": "البناء (الهيكل الأساسي)",
+    "second_oeuvre": "الأعمال الثانوية",
+    "plomberie": "السباكة / الصحي",
+    "electricite": "الكهرباء (تيارات قوية)",
+    "courants_faibles": "التيارات الضعيفة",
+    "hvac": "التكييف والتهوية",
+    "charpente": "النجارة / الهياكل الخشبية",
+    "peinture": "الدهانات / التغليف",
+    "architecture": "الهندسة المعمارية",
+    "bureau_etudes": "مكتب الدراسات",
+    "routes": "الطرق / شبكات التوزيع",
+    "hydraulique": "الأشغال الهيدروليكية",
+    "equipment_supplier": "مورد مواد البناء",
+    "other": "أخرى"
+  },
+  "region": {
+    "all": "جميع الجهات"
+  },
+  "groupement": {
+    "title": "تجمع",
+    "plural": "التجمعات",
+    "create": "إنشاء تجمع",
+    "join": "الانضمام",
+    "leave": "المغادرة",
+    "invite": "دعوة للانضمام",
+    "status": {
+      "forming": "قيد التشكيل",
+      "formed": "مُشكَّل",
+      "submitting": "الملف جارٍ",
+      "submitted": "تم إيداع الترشح",
+      "won": "تم الفوز بالصفقة",
+      "lost": "غير مقبول",
+      "withdrawn": "تم الانسحاب"
+    },
+    "mandataire": "الوكيل (الرئيس المفوَّض)",
+    "cotraitant": "المتعامل المشارك",
+    "seeking": "بحث عن شريك {specialty}",
+    "seekingPartners": "بحث عن شركاء",
+    "neededSpecialties": "التخصصات المطلوبة",
+    "members": "الأعضاء",
+    "member": "عضو",
+    "estimatedShare": "الحصة التقديرية",
+    "workspaceNotes": "ملاحظات العمل",
+    "targetBudget": "الميزانية المستهدفة",
+    "legalNote": "تجمع مشترك — المرسوم 2-12-349 المادة 154",
+    "memberStatus": {
+      "invited": "مدعو",
+      "confirmed": "مؤكَّد",
+      "declined": "مرفوض",
+      "left": "غادر"
+    },
+    "noGroupements": "ليس لديك تجمع بعد",
+    "noGroupementsHint": "ابحث عن صفقة واقترح تجمعاً."
+  },
+  "compliance": {
+    "title": "الملف التنظيمي",
+    "score": "اكتمال الملف",
+    "scoreHint": "{score}% — {missing} وثيقة ناقصة",
+    "upload": "إضافة وثيقة",
+    "docs": {
+      "attestation_fiscale": "الشهادة الضريبية (DGI)",
+      "quitus_cnss": "إبراء CNSS",
+      "assurance_decennale": "التأمين العشري",
+      "rc_pro": "التأمين المدني المهني",
+      "registre_commerce": "السجل التجاري",
+      "statuts": "النظام الأساسي للشركة",
+      "qualification_fnbtp": "مؤهل FNBTP",
+      "reference_chantier": "مرجع ورشة",
+      "other": "وثيقة أخرى"
+    },
+    "status": {
+      "valid": "صالح",
+      "expiring_soon": "ينتهي خلال {days} أيام",
+      "expired": "منتهي — يجب التجديد",
+      "pending_renewal": "جارٍ التجديد"
+    },
+    "expiry": "ينتهي في",
+    "issued": "صدر في",
+    "expiryAlert": "وثيقتك {doc} تنتهي خلال {days} أيام.",
+    "renewLink": "تجديد",
+    "dossierBuilder": "إنشاء الملف",
+    "dossierBuilderHint": "اختر طلب عروض لإنشاء قائمة الوثائق المطلوبة تلقائياً.",
+    "disclaimer": "أداة تحضير فقط. يبقى التحقق من الامتثال من اختصاص صاحب المشروع.",
+    "fnbtpCategory": {
+      "premiere": "الفئة الأولى",
+      "deuxieme": "الفئة الثانية",
+      "troisieme": "الفئة الثالثة",
+      "non_qualifie": "غير مؤهل FNBTP"
+    }
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "name": "الاسم الكامل",
+    "companyName": "اسم الشركة",
+    "phone": "الهاتف",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب بعد؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "orContinueWith": "أو المتابعة باستخدام",
+    "google": "Google",
+    "emailVerification": "تحقق من البريد الإلكتروني",
+    "emailVerificationSent": "تم إرسال رابط التحقق إلى {email}.",
+    "errors": {
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+      "emailTaken": "هذا البريد الإلكتروني مستخدم بالفعل",
+      "unknown": "حدث خطأ. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "companyInfo": "معلومات الشركة",
+    "specialties": "التخصصات",
+    "regions": "مناطق التدخل",
+    "capacity": "القدرة",
+    "fnbtp": "مؤهل FNBTP",
+    "companySize": {
+      "micro": "مقاولة مصغرة (أقل من 10 موظفين)",
+      "tpe": "مقاولة صغيرة جداً (10-49 موظفاً)",
+      "pme": "مقاولة صغيرة ومتوسطة (50-249 موظفاً)",
+      "eti": "مؤسسة متوسطة الحجم (250+ موظفاً)"
+    },
+    "maxContractValue": "الحد الأقصى للصفقة (درهم)",
+    "employeeCount": "عدد الموظفين",
+    "ice": "رقم ICE",
+    "rc": "السجل التجاري",
+    "references": "المراجع المهنية",
+    "noReferences": "لا توجد مراجع مهنية",
+    "addReference": "إضافة مرجع",
+    "save": "حفظ",
+    "saved": "تم الحفظ"
+  },
+  "references": {
+    "title": "المراجع المهنية",
+    "subtitle": "مشاريعكم المنجزة — تظهر في ملفكم العمومي وتُستخدم في ملفات الترشيح.",
+    "add": "إضافة مرجع",
+    "added": "تمت إضافة المرجع",
+    "empty": "لا توجد مراجع حالياً. أضيفوا مشاريعكم المنجزة لتعزيز ملفكم.",
+    "projectTitle": "عنوان المشروع",
+    "projectTitlePlaceholder": "حصة السباكة — إقامة المنار",
+    "maitreDOuvrage": "صاحب المشروع",
+    "specialty": "التخصص",
+    "contractValue": "مبلغ الصفقة (درهم)",
+    "completedAt": "تاريخ الإنجاز",
+    "description": "الوصف"
+  },
+  "publicProfile": {
+    "complianceScore": "الملف مكتمل بنسبة {score}%",
+    "completedTenders": "{count} صفقة منجزة"
+  },
+  "common": {
+    "loading": "جارٍ التحميل…",
+    "error": "خطأ",
+    "retry": "إعادة المحاولة",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "search": "بحث",
+    "filter": "تصفية",
+    "reset": "إعادة ضبط",
+    "all": "الكل",
+    "yes": "نعم",
+    "no": "لا",
+    "required": "مطلوب",
+    "optional": "اختياري",
+    "new": "جديد",
+    "updated": "محدَّث",
+    "moreInfo": "معرفة المزيد",
+    "seeAll": "عرض الكل",
+    "noData": "لا توجد بيانات",
+    "currency": "درهم"
+  },
+  "admin": {
+    "title": "الإدارة",
+    "tenders": "طلبات العروض",
+    "scraper": "حالة المُجمِّع",
+    "users": "المستخدمون",
+    "groupements": "التجمعات",
+    "kpis": "مؤشرات المنصة",
+    "scraperHealth": {
+      "ok": "المُجمِّع يعمل بشكل سليم",
+      "warning": "تحذير — المُجمِّع",
+      "error": "خطأ في المُجمِّع"
+    }
+  }
+}

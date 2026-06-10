@@ -1,0 +1,262 @@
+{
+  "nav": {
+    "radar": "Radar des marchés",
+    "groupements": "Mes groupements",
+    "compliance": "Mon dossier",
+    "dashboard": "Tableau de bord",
+    "savedSearches": "Mes alertes",
+    "tracking": "Mes marchés suivis",
+    "profile": "Mon profil",
+    "admin": "Administration",
+    "logout": "Se déconnecter",
+    "login": "Se connecter",
+    "signup": "Créer un compte"
+  },
+  "tender": {
+    "title": "Appel d'offres",
+    "plural": "Appels d'offres",
+    "type": {
+      "travaux": "Travaux",
+      "fournitures": "Fournitures",
+      "services": "Services",
+      "conception_realisation": "Conception-réalisation"
+    },
+    "status": {
+      "open": "Ouvert",
+      "closing_soon": "Clôture proche",
+      "closed": "Clôturé",
+      "awarded": "Attribué",
+      "cancelled": "Annulé"
+    },
+    "deadline": "Dépôt avant le",
+    "daysLeft": "{n} jours restants",
+    "urgent": "Urgent — {n} jours",
+    "today": "Aujourd'hui",
+    "expired": "Expiré",
+    "lots": "Lots",
+    "lot": "Lot",
+    "maitreDOuvrage": "Maître d'ouvrage",
+    "maitreDOuvrageType": {
+      "commune": "Commune",
+      "ministere": "Ministère",
+      "etablissement_public": "Établissement public",
+      "prive": "Privé"
+    },
+    "region": "Région",
+    "budget": "Montant estimé",
+    "download": "Télécharger le dossier",
+    "track": "Suivre ce marché",
+    "untrack": "Ne plus suivre",
+    "noResults": "Aucun appel d'offres trouvé",
+    "noResultsHint": "Modifiez vos filtres pour élargir la recherche.",
+    "publishedAt": "Publié le",
+    "openingDate": "Ouverture des plis le",
+    "requiredSpecialties": "Spécialités requises",
+    "requiredFnbtp": "Qualification FNBTP requise",
+    "createGroupement": "Créer un groupement pour ce marché",
+    "trackingStatus": {
+      "watching": "En veille",
+      "bidding": "Candidature en cours",
+      "submitted": "Candidature déposée",
+      "won": "Marché remporté",
+      "lost": "Non retenu",
+      "withdrawn": "Retiré"
+    }
+  },
+  "specialty": {
+    "genie_civil": "Génie civil",
+    "batiment": "Bâtiment (gros œuvre)",
+    "second_oeuvre": "Second œuvre",
+    "plomberie": "Plomberie / Sanitaire",
+    "electricite": "Électricité courants forts",
+    "courants_faibles": "Courants faibles",
+    "hvac": "CVC (Climatisation / Ventilation)",
+    "charpente": "Charpente / Menuiserie",
+    "peinture": "Peinture / Revêtements",
+    "architecture": "Architecture",
+    "bureau_etudes": "Bureau d'études",
+    "routes": "Routes / VRD",
+    "hydraulique": "Hydraulique",
+    "equipment_supplier": "Fournisseur matériaux",
+    "other": "Autre"
+  },
+  "region": {
+    "all": "Toutes les régions"
+  },
+  "groupement": {
+    "title": "Groupement",
+    "plural": "Groupements",
+    "create": "Créer un groupement",
+    "join": "Rejoindre",
+    "leave": "Quitter",
+    "invite": "Inviter à rejoindre",
+    "status": {
+      "forming": "En constitution",
+      "formed": "Constitué",
+      "submitting": "Dossier en cours",
+      "submitted": "Candidature déposée",
+      "won": "Marché remporté",
+      "lost": "Non retenu",
+      "withdrawn": "Retiré"
+    },
+    "mandataire": "Mandataire (chef de file)",
+    "cotraitant": "Co-traitant",
+    "seeking": "Recherche partenaire {specialty}",
+    "seekingPartners": "Recherche de partenaires",
+    "neededSpecialties": "Spécialités recherchées",
+    "members": "Membres",
+    "member": "Membre",
+    "estimatedShare": "Part estimée",
+    "workspaceNotes": "Notes de travail",
+    "targetBudget": "Budget cible",
+    "legalNote": "Groupement conjoint — Décret 2-12-349 art. 154",
+    "memberStatus": {
+      "invited": "Invité",
+      "confirmed": "Confirmé",
+      "declined": "Décliné",
+      "left": "Parti"
+    },
+    "noGroupements": "Vous n'avez pas encore de groupement",
+    "noGroupementsHint": "Trouvez un marché et proposez un groupement."
+  },
+  "compliance": {
+    "title": "Dossier réglementaire",
+    "score": "Complétude du dossier",
+    "scoreHint": "{score}% — {missing} document(s) manquant(s)",
+    "upload": "Ajouter un document",
+    "docs": {
+      "attestation_fiscale": "Attestation fiscale (DGI)",
+      "quitus_cnss": "Quitus CNSS",
+      "assurance_decennale": "Assurance décennale",
+      "rc_pro": "RC Professionnelle",
+      "registre_commerce": "Registre de commerce",
+      "statuts": "Statuts de société",
+      "qualification_fnbtp": "Qualification FNBTP",
+      "reference_chantier": "Référence chantier",
+      "other": "Autre document"
+    },
+    "status": {
+      "valid": "Valide",
+      "expiring_soon": "Expire dans {days} jours",
+      "expired": "Expiré — à renouveler",
+      "pending_renewal": "En cours de renouvellement"
+    },
+    "expiry": "Expire le",
+    "issued": "Délivré le",
+    "expiryAlert": "Votre {doc} expire dans {days} jours.",
+    "renewLink": "Renouveler",
+    "dossierBuilder": "Générer le dossier",
+    "dossierBuilderHint": "Sélectionnez un appel d'offres pour générer automatiquement la liste des documents requis.",
+    "disclaimer": "Outil de préparation uniquement. La vérification de conformité appartient au maître d'ouvrage.",
+    "fnbtpCategory": {
+      "premiere": "1ère catégorie",
+      "deuxieme": "2ème catégorie",
+      "troisieme": "3ème catégorie",
+      "non_qualifie": "Non qualifié FNBTP"
+    }
+  },
+  "auth": {
+    "login": "Se connecter",
+    "signup": "Créer un compte",
+    "logout": "Se déconnecter",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "name": "Nom complet",
+    "companyName": "Raison sociale",
+    "phone": "Téléphone",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "orContinueWith": "Ou continuer avec",
+    "google": "Google",
+    "emailVerification": "Vérification de l'e-mail",
+    "emailVerificationSent": "Un lien de vérification a été envoyé à {email}.",
+    "errors": {
+      "invalidCredentials": "E-mail ou mot de passe incorrect",
+      "emailTaken": "Cette adresse e-mail est déjà utilisée",
+      "unknown": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "companyInfo": "Informations société",
+    "specialties": "Spécialités",
+    "regions": "Régions d'intervention",
+    "capacity": "Capacité",
+    "fnbtp": "Qualification FNBTP",
+    "companySize": {
+      "micro": "Micro-entreprise (< 10 salariés)",
+      "tpe": "TPE (10–49 salariés)",
+      "pme": "PME (50–249 salariés)",
+      "eti": "ETI (250+ salariés)"
+    },
+    "maxContractValue": "Capacité maximale (MAD)",
+    "employeeCount": "Nombre de salariés",
+    "ice": "ICE",
+    "rc": "Registre de commerce",
+    "references": "Références chantiers",
+    "noReferences": "Aucune référence chantier",
+    "addReference": "Ajouter une référence",
+    "save": "Enregistrer",
+    "saved": "Enregistré"
+  },
+  "references": {
+    "title": "Références chantiers",
+    "subtitle": "Vos projets réalisés — visibles sur votre profil public et utilisés dans vos dossiers de candidature.",
+    "add": "Ajouter une référence",
+    "added": "Référence ajoutée",
+    "empty": "Aucune référence pour le moment. Ajoutez vos projets réalisés pour renforcer votre profil.",
+    "projectTitle": "Intitulé du projet",
+    "projectTitlePlaceholder": "Lot plomberie — Résidence Al Manar",
+    "maitreDOuvrage": "Maître d'ouvrage",
+    "specialty": "Spécialité",
+    "contractValue": "Montant du marché (MAD)",
+    "completedAt": "Date d'achèvement",
+    "description": "Description"
+  },
+  "publicProfile": {
+    "complianceScore": "Dossier complet à {score}%",
+    "completedTenders": "{count} marché(s) réalisé(s)"
+  },
+  "common": {
+    "loading": "Chargement…",
+    "error": "Erreur",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "reset": "Réinitialiser",
+    "all": "Tous",
+    "yes": "Oui",
+    "no": "Non",
+    "required": "Obligatoire",
+    "optional": "Optionnel",
+    "new": "Nouveau",
+    "updated": "Mis à jour",
+    "moreInfo": "En savoir plus",
+    "seeAll": "Voir tout",
+    "noData": "Aucune donnée",
+    "currency": "MAD"
+  },
+  "admin": {
+    "title": "Administration",
+    "tenders": "Appels d'offres",
+    "scraper": "État du scraper",
+    "users": "Utilisateurs",
+    "groupements": "Groupements",
+    "kpis": "KPIs plateforme",
+    "scraperHealth": {
+      "ok": "Scraper opérationnel",
+      "warning": "Scraper — avertissement",
+      "error": "Scraper en erreur"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "bina",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "pnpm -r test",
+    "db:push": "pnpm --filter @bina/db push",
+    "db:migrate": "pnpm --filter @bina/db migrate",
+    "db:seed": "pnpm --filter @bina/db seed",
+    "db:studio": "pnpm --filter @bina/db studio",
+    "worker": "pnpm --filter @bina/worker start"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}

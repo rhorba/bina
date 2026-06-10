@@ -1,0 +1,103 @@
+# Bina — Claude Code Team Framework
+
+> Read `../CLAUDE.md` for full business rules, data model, and tech stack.
+> This file governs HOW the AI team works.
+
+---
+
+## Autonomous Mode (default)
+
+- **Design choices**: Always pick 🟡 **BALANCED**.
+- **Specialist handoffs**: Proceed automatically.
+- **Testing**: After ANY code task, auto-invoke Tester.
+
+### Stop only for
+1. Blocker (marchespublics.gov.ma structure changed, scraper broken, Playwright dep fails)
+2. Scope gap not in `../CLAUDE.md`
+3. DB schema breaking change
+4. Security/compliance doc PII risk
+5. Sprint boundary
+
+---
+
+## Sprint System
+
+| Sprint | Goal |
+|---|---|
+| **Sprint 0** | Scaffold + Auth + RBAC + RLS + Docker |
+| **Sprint 1** | Data model + Contractor profiles + Project references + demo seed |
+| **Sprint 2** | Tender scraper + tender browse (public SSR) + tender detail |
+| **Sprint 3** | Saved searches + alert engine + tender tracking dashboard |
+| **Sprint 4** | Groupement system (create + browse + join + workspace) |
+| **Sprint 5** | Compliance vault + document expiry + dossier builder |
+| **Sprint 6** | Notifications + email + i18n FR/AR + RTL + a11y |
+| **Sprint 7** | Admin dashboard + security hardening + deploy → v0.1 ship |
+
+---
+
+## Auto-Handoff Protocol
+
+| When | Auto-trigger |
+|---|---|
+| Backend/Frontend DONE | → Tester |
+| Scraper work | → Tender Engine + Tester (scraper tests use mocked HTML) |
+| Groupement state machine | → Groupement Engine |
+| Compliance doc upload | → Compliance Engineer + Security |
+| Alert sweep | → Tender Engine + Backend |
+| All sprint tests PASS | → Deployment check |
+| Sprint all-green | → Project Monitor: snapshot |
+
+---
+
+## Specialist Skills
+
+| Specialist | Trigger |
+|---|---|
+| Orchestrator | Session start, routing |
+| Project Manager | Scope, risks |
+| Scrum Master | Sprint planning |
+| Tech Lead | ADRs, stack |
+| DBA | Schema, RLS, migrations (standard postgres:16-alpine) |
+| Backend Dev | Server actions, API routes |
+| Frontend Dev | All web pages, RTL, data tables |
+| Tender Engine | Scraper, parsing, filter matching, alert sweep |
+| Groupement Engine | State machine, workspace logic, Moroccan procurement law |
+| Compliance Engineer | Document vault, expiry, dossier builder, R2 private |
+| Tester | Vitest, Playwright |
+| Test Architect | Adversarial, scraper mocks, groupement edge cases |
+| Security Engineer | Auth, compliance docs PII, role isolation |
+| DevOps/DevSecOps | Docker (standard postgres:16-alpine), CI, secrets |
+| Deployment | Vercel + Docker verify |
+| UX Designer | Wireframes, contractor UX, mobile-friendly |
+| UI Designer | Steel blue/orange tokens, data tables, deadline chips |
+| Content Editor | FR/AR, BTP vocabulary, procurement terminology |
+| Project Monitor | Logs, KPIs, snapshots |
+
+---
+
+## Bina-Specific Non-Negotiables
+
+1. **Compliance documents are sensitive PII** — attestation fiscale + CNSS quitus contain company financial data. Private R2 bucket. Signed URLs (15-min expiry). Contractor + admin only. Every access audit-logged.
+2. **Tender data is public — treat it that way** — marchespublics.gov.ma is public data. No auth required to browse tenders. SSR + cached for SEO. This is the acquisition hook.
+3. **Scraper is rate-limited** — 1 request per 3 seconds. Runs nightly at 6am only. Has a CSV manual import fallback in case the portal changes structure. Never scrape more than once per day.
+4. **Groupement mandataire is legally required** — Moroccan procurement law requires one mandataire (responsible lead) per groupement. Every groupement must designate one. UI must enforce this.
+5. **Bina never certifies compliance** — the platform organizes documents but never guarantees a contractor IS compliant. Clear disclaimer on dossier builder output.
+6. **No money flows through Bina** — SaaS subscription tool only. No procurement intermediary role. No commission on tender wins.
+7. **Deadlines are the primary urgency signal** — every tender view shows days-remaining countdown. Red when < 7 days. Orange when < 14 days.
+8. **RTL equal** — Arabic-speaking contractors are a major segment.
+9. **FNBTP category determines tender eligibility** — many tenders require specific FNBTP qualification categories. Filter + alert logic must respect this.
+10. **Scraper fallback** — if marchespublics.gov.ma structure changes, admin can manually import a CSV export. Never fully dependent on scraper.
+
+---
+
+## YAGNI Gate
+```
+"Does Bina v0.1 need this for the DoD (../CLAUDE.md §12)?"
+  YES → Build it   |   NO → v0.2 backlog only
+```
+
+## 3-Option Pattern (always pick 🟡 BALANCED)
+```
+🟢 SIMPLE | 🟡 BALANCED ← SELECTED | 🔴 COMPREHENSIVE
+→ "Proceeding with 🟡 BALANCED approach: [description]"
+```

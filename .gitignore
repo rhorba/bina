@@ -1,0 +1,17 @@
+node_modules
+.next
+dist
+build
+.env
+.env.local
+.env.*.local
+*.pem
+.DS_Store
+*.log
+.turbo
+.vercel
+coverage
+playwright-report
+test-results
+.playwright
+*.stackdump

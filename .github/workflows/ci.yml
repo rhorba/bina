@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Build · Lint · Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: bina_test
+          POSTGRES_USER: bina
+          POSTGRES_PASSWORD: bina_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://bina:bina_test@localhost:5432/bina_test
+      AUTH_SECRET: ci-test-secret-32-chars-minimum-ok
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build packages
+        run: |
+          pnpm --filter @bina/core build || true
+          pnpm --filter @bina/db build || true
+
+      - name: Unit tests
+        run: pnpm -r --filter "./packages/**" test
+
+      - name: Build web
+        run: pnpm --filter web build
+        env:
+          AUTH_SECRET: ci-test-secret-32-chars-minimum-ok
+          DATABASE_URL: postgres://bina:bina_test@localhost:5432/bina_test

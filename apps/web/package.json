@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",
+    "@bina/compliance": "workspace:*",
     "@bina/core": "workspace:*",
     "@bina/db": "workspace:*",
     "@bina/groupement": "workspace:*",

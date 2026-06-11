@@ -26,6 +26,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.717.0
         version: 3.1065.0
+      '@bina/compliance':
+        specifier: workspace:*
+        version: link:../../packages/compliance
       '@bina/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -148,10 +151,16 @@ importers:
       '@bina/db':
         specifier: workspace:*
         version: link:../db
+      drizzle-orm:
+        specifier: ^0.38.3
+        version: 0.38.4(@types/react@19.2.17)(pg@8.21.0)(postgres@3.4.9)(react@19.2.7)
     devDependencies:
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.20
+      '@vitest/coverage-v8':
+        specifier: ^2.1.8
+        version: 2.1.9(vitest@2.1.9(@types/node@22.19.20)(lightningcss@1.32.0))
       typescript:
         specifier: ^5.7.2
         version: 5.9.3

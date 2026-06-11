@@ -11,6 +11,8 @@
   "dependencies": {
     "@bina/core": "workspace:*",
     "@bina/db": "workspace:*",
+    "@bina/scraper": "workspace:*",
+    "@bina/tenders": "workspace:*",
     "pg-boss": "^10.1.4"
   },
   "devDependencies": {

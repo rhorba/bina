@@ -54,6 +54,13 @@
     "requiredSpecialties": "Spécialités requises",
     "requiredFnbtp": "Qualification FNBTP requise",
     "createGroupement": "Créer un groupement pour ce marché",
+    "statusLabel": "Statut",
+    "typeLabel": "Type de marché",
+    "deadlineFilterLabel": "Échéance",
+    "descriptionLabel": "Description",
+    "filtersTitle": "Filtres",
+    "resultsCount": "{count} marché(s)",
+    "backToList": "Retour aux marchés",
     "trackingStatus": {
       "watching": "En veille",
       "bidding": "Candidature en cours",

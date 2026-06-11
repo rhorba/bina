@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@bina/core": "workspace:*",
-    "@bina/db": "workspace:*"
+    "@bina/db": "workspace:*",
+    "drizzle-orm": "^0.38.3"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

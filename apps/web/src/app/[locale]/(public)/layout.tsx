@@ -21,6 +21,12 @@ export default async function PublicLayout({ children, params }: Props) {
           </Link>
           <div className="flex items-center gap-3">
             <Link
+              href={`/${locale}/tenders`}
+              className="text-sm font-medium text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition"
+            >
+              Radar des marchés
+            </Link>
+            <Link
               href={`/${locale}/auth/login`}
               className="text-sm font-medium text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition"
             >

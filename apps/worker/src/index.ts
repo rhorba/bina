@@ -1,3 +1,4 @@
+import { runDailyScrape } from "@bina/scraper";
 import PgBoss from "pg-boss";
 import { CRON_SCHEDULES, QUEUES } from "./queues.js";
 
@@ -11,27 +12,33 @@ boss.on("error", (err) => {
 });
 
 async function registerWorkers() {
-  // scraper.daily — Sprint 2
-  await boss.work(QUEUES.SCRAPER_DAILY, async (job) => {
-    console.log("[scraper.daily] job received:", job.id);
-    // TODO Sprint 2: import and call scraper
+  // scraper.daily — nightly scrape + status refresh (CSV fallback is manual, admin-side)
+  await boss.work(QUEUES.SCRAPER_DAILY, async (jobs) => {
+    for (const job of jobs) {
+      console.log("[scraper.daily] job received:", job.id);
+      const result = await runDailyScrape();
+      console.log(
+        `[scraper.daily] done — run ${result.runId}: ${result.scraped} scraped, ` +
+          `${result.inserted} new, ${result.updated} updated, ${result.errors} errors`
+      );
+    }
   });
 
   // alert.sweep — Sprint 3
-  await boss.work(QUEUES.ALERT_SWEEP, async (job) => {
-    console.log("[alert.sweep] job received:", job.id);
+  await boss.work(QUEUES.ALERT_SWEEP, async (jobs) => {
+    console.log("[alert.sweep] jobs received:", jobs.map((j) => j.id).join(", "));
     // TODO Sprint 3: import and run alert sweep
   });
 
   // doc.expiry.sweep — Sprint 5
-  await boss.work(QUEUES.DOC_EXPIRY_SWEEP, async (job) => {
-    console.log("[doc.expiry.sweep] job received:", job.id);
+  await boss.work(QUEUES.DOC_EXPIRY_SWEEP, async (jobs) => {
+    console.log("[doc.expiry.sweep] jobs received:", jobs.map((j) => j.id).join(", "));
     // TODO Sprint 5: import and run expiry sweep
   });
 
   // groupement.archive — Sprint 4
-  await boss.work(QUEUES.GROUPEMENT_ARCHIVE, async (job) => {
-    console.log("[groupement.archive] job received:", job.id);
+  await boss.work(QUEUES.GROUPEMENT_ARCHIVE, async (jobs) => {
+    console.log("[groupement.archive] jobs received:", jobs.map((j) => j.id).join(", "));
     // TODO Sprint 4: archive stale groupements
   });
 }

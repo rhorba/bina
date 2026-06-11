@@ -7,3 +7,4 @@ export * from "./tracking.js";
 export * from "./references.js";
 export * from "./audit.js";
 export * from "./notifications.js";
+export * from "./scraper.js";

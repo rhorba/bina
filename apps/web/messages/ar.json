@@ -54,6 +54,13 @@
     "requiredSpecialties": "التخصصات المطلوبة",
     "requiredFnbtp": "مؤهل FNBTP المطلوب",
     "createGroupement": "إنشاء تجمع لهذا العرض",
+    "statusLabel": "الحالة",
+    "typeLabel": "نوع الصفقة",
+    "deadlineFilterLabel": "الأجل",
+    "descriptionLabel": "الوصف",
+    "filtersTitle": "الفلاتر",
+    "resultsCount": "{count} صفقة",
+    "backToList": "العودة إلى المناقصات",
     "trackingStatus": {
       "watching": "تحت المراقبة",
       "bidding": "الترشح جارٍ",

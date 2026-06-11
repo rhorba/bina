@@ -28,16 +28,16 @@ export default async function HomePage({ params }: Props) {
 
       <div className="flex items-center justify-center gap-4 mb-16">
         <Link
-          href={`/${locale}/auth/signup`}
+          href={`/${locale}/tenders`}
           className="bg-[var(--color-primary)] text-[var(--color-primary-fg)] font-semibold rounded-lg px-6 py-3 hover:bg-[var(--color-primary-mid)] transition text-sm"
         >
-          Commencer gratuitement
+          Explorer les marchés
         </Link>
         <Link
-          href={`/${locale}/auth/login`}
+          href={`/${locale}/auth/signup`}
           className="border border-[var(--color-border)] text-[var(--color-foreground)] font-semibold rounded-lg px-6 py-3 hover:bg-[var(--color-bg)] transition text-sm"
         >
-          Se connecter
+          Commencer gratuitement
         </Link>
       </div>
 

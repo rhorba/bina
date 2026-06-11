@@ -44,7 +44,7 @@ describe("parseTenderCsv", () => {
   test("infers specialties when column is empty", () => {
     const csv = [
       HEADER,
-      `MP-2026-100002;Travaux de peinture et revêtement;Ministère de la Santé;travaux;Casablanca-Settat;;;01/06/2026;30/07/2026;;;;`,
+      "MP-2026-100002;Travaux de peinture et revêtement;Ministère de la Santé;travaux;Casablanca-Settat;;;01/06/2026;30/07/2026;;;;",
     ].join("\n");
 
     const { tenders } = parseTenderCsv(csv);
@@ -54,9 +54,9 @@ describe("parseTenderCsv", () => {
   test("collects per-line errors without aborting the import", () => {
     const csv = [
       HEADER,
-      `MP-2026-100003;Bon marché;Commune de Salé;travaux;Rabat;;;01/06/2026;15/07/2026;;;;`,
-      `;Sans identifiant;Commune de Salé;travaux;Rabat;;;01/06/2026;15/07/2026;;;;`,
-      `MP-2026-100004;Date cassée;Commune de Salé;travaux;Rabat;;;01/06/2026;jamais;;;;`,
+      "MP-2026-100003;Bon marché;Commune de Salé;travaux;Rabat;;;01/06/2026;15/07/2026;;;;",
+      ";Sans identifiant;Commune de Salé;travaux;Rabat;;;01/06/2026;15/07/2026;;;;",
+      "MP-2026-100004;Date cassée;Commune de Salé;travaux;Rabat;;;01/06/2026;jamais;;;;",
     ].join("\n");
 
     const { tenders, errors } = parseTenderCsv(csv);

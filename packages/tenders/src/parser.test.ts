@@ -1,12 +1,12 @@
 import { describe, expect, test } from "vitest";
 import {
+  TenderParseError,
   detectLots,
   parseBudgetMAD,
   parseFrenchDate,
   parseMaitreDOuvrageType,
   parseTenderFields,
   parseTenderType,
-  TenderParseError,
 } from "./parser.js";
 
 describe("parseFrenchDate", () => {

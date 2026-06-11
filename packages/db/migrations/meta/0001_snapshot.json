@@ -209,12 +209,8 @@
           "name": "compliance_documents_contractor_id_contractor_profiles_id_fk",
           "tableFrom": "compliance_documents",
           "tableTo": "contractor_profiles",
-          "columnsFrom": [
-            "contractor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contractor_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -356,12 +352,8 @@
           "name": "contractor_profiles_user_id_users_id_fk",
           "tableFrom": "contractor_profiles",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -371,9 +363,7 @@
         "contractor_profiles_user_id_unique": {
           "name": "contractor_profiles_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id"
-          ]
+          "columns": ["user_id"]
         }
       },
       "policies": {},
@@ -497,12 +487,8 @@
           "name": "groupement_members_groupement_id_groupements_id_fk",
           "tableFrom": "groupement_members",
           "tableTo": "groupements",
-          "columnsFrom": [
-            "groupement_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["groupement_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -510,12 +496,8 @@
           "name": "groupement_members_contractor_id_contractor_profiles_id_fk",
           "tableFrom": "groupement_members",
           "tableTo": "contractor_profiles",
-          "columnsFrom": [
-            "contractor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contractor_id"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "no action"
         }
@@ -615,12 +597,8 @@
           "name": "groupements_tender_id_tenders_id_fk",
           "tableFrom": "groupements",
           "tableTo": "tenders",
-          "columnsFrom": [
-            "tender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tender_id"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "no action"
         },
@@ -628,12 +606,8 @@
           "name": "groupements_lot_id_tender_lots_id_fk",
           "tableFrom": "groupements",
           "tableTo": "tender_lots",
-          "columnsFrom": [
-            "lot_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["lot_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -641,12 +615,8 @@
           "name": "groupements_initiator_id_contractor_profiles_id_fk",
           "tableFrom": "groupements",
           "tableTo": "contractor_profiles",
-          "columnsFrom": [
-            "initiator_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["initiator_id"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "no action"
         }
@@ -763,12 +733,8 @@
           "name": "notifications_user_id_users_id_fk",
           "tableFrom": "notifications",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -859,12 +825,8 @@
           "name": "project_references_contractor_id_contractor_profiles_id_fk",
           "tableFrom": "project_references",
           "tableTo": "contractor_profiles",
-          "columnsFrom": [
-            "contractor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contractor_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1018,12 +980,8 @@
           "name": "tender_lots_tender_id_tenders_id_fk",
           "tableFrom": "tender_lots",
           "tableTo": "tenders",
-          "columnsFrom": [
-            "tender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tender_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1256,9 +1214,7 @@
         "tenders_external_id_unique": {
           "name": "tenders_external_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "external_id"
-          ]
+          "columns": ["external_id"]
         }
       },
       "policies": {},
@@ -1329,12 +1285,8 @@
           "name": "saved_searches_contractor_id_contractor_profiles_id_fk",
           "tableFrom": "saved_searches",
           "tableTo": "contractor_profiles",
-          "columnsFrom": [
-            "contractor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contractor_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1440,12 +1392,8 @@
           "name": "tracked_tenders_contractor_id_contractor_profiles_id_fk",
           "tableFrom": "tracked_tenders",
           "tableTo": "contractor_profiles",
-          "columnsFrom": [
-            "contractor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contractor_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1453,12 +1401,8 @@
           "name": "tracked_tenders_tender_id_tenders_id_fk",
           "tableFrom": "tracked_tenders",
           "tableTo": "tenders",
-          "columnsFrom": [
-            "tender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tender_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1512,12 +1456,8 @@
           "name": "accounts_user_id_users_id_fk",
           "tableFrom": "accounts",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1571,12 +1511,8 @@
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1586,9 +1522,7 @@
         "sessions_session_token_unique": {
           "name": "sessions_session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "session_token"
-          ]
+          "columns": ["session_token"]
         }
       },
       "policies": {},
@@ -1686,9 +1620,7 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -1732,9 +1664,7 @@
         "verification_tokens_token_unique": {
           "name": "verification_tokens_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -1746,26 +1676,12 @@
     "public.audit_action": {
       "name": "audit_action",
       "schema": "public",
-      "values": [
-        "create",
-        "update",
-        "join",
-        "leave",
-        "submit",
-        "upload",
-        "download",
-        "delete"
-      ]
+      "values": ["create", "update", "join", "leave", "submit", "upload", "download", "delete"]
     },
     "public.doc_status": {
       "name": "doc_status",
       "schema": "public",
-      "values": [
-        "valid",
-        "expiring_soon",
-        "expired",
-        "pending_renewal"
-      ]
+      "values": ["valid", "expiring_soon", "expired", "pending_renewal"]
     },
     "public.doc_type": {
       "name": "doc_type",
@@ -1785,22 +1701,12 @@
     "public.company_size": {
       "name": "company_size",
       "schema": "public",
-      "values": [
-        "micro",
-        "tpe",
-        "pme",
-        "eti"
-      ]
+      "values": ["micro", "tpe", "pme", "eti"]
     },
     "public.fnbtp_category": {
       "name": "fnbtp_category",
       "schema": "public",
-      "values": [
-        "premiere",
-        "deuxieme",
-        "troisieme",
-        "non_qualifie"
-      ]
+      "values": ["premiere", "deuxieme", "troisieme", "non_qualifie"]
     },
     "public.trade_specialty": {
       "name": "trade_specialty",
@@ -1826,33 +1732,17 @@
     "public.groupement_member_role": {
       "name": "groupement_member_role",
       "schema": "public",
-      "values": [
-        "mandataire",
-        "cotraitant"
-      ]
+      "values": ["mandataire", "cotraitant"]
     },
     "public.groupement_member_status": {
       "name": "groupement_member_status",
       "schema": "public",
-      "values": [
-        "invited",
-        "confirmed",
-        "declined",
-        "left"
-      ]
+      "values": ["invited", "confirmed", "declined", "left"]
     },
     "public.groupement_status": {
       "name": "groupement_status",
       "schema": "public",
-      "values": [
-        "forming",
-        "formed",
-        "submitting",
-        "submitted",
-        "won",
-        "lost",
-        "withdrawn"
-      ]
+      "values": ["forming", "formed", "submitting", "submitted", "won", "lost", "withdrawn"]
     },
     "public.notification_type": {
       "name": "notification_type",
@@ -1869,71 +1759,37 @@
     "public.scrape_run_status": {
       "name": "scrape_run_status",
       "schema": "public",
-      "values": [
-        "running",
-        "success",
-        "partial",
-        "failed"
-      ]
+      "values": ["running", "success", "partial", "failed"]
     },
     "public.scrape_source": {
       "name": "scrape_source",
       "schema": "public",
-      "values": [
-        "scraper",
-        "csv_import"
-      ]
+      "values": ["scraper", "csv_import"]
     },
     "public.maitre_d_ouvrage_type": {
       "name": "maitre_d_ouvrage_type",
       "schema": "public",
-      "values": [
-        "commune",
-        "ministere",
-        "etablissement_public",
-        "prive"
-      ]
+      "values": ["commune", "ministere", "etablissement_public", "prive"]
     },
     "public.tender_status": {
       "name": "tender_status",
       "schema": "public",
-      "values": [
-        "open",
-        "closing_soon",
-        "closed",
-        "awarded",
-        "cancelled"
-      ]
+      "values": ["open", "closing_soon", "closed", "awarded", "cancelled"]
     },
     "public.tender_type": {
       "name": "tender_type",
       "schema": "public",
-      "values": [
-        "travaux",
-        "fournitures",
-        "services",
-        "conception_realisation"
-      ]
+      "values": ["travaux", "fournitures", "services", "conception_realisation"]
     },
     "public.tracked_tender_status": {
       "name": "tracked_tender_status",
       "schema": "public",
-      "values": [
-        "watching",
-        "bidding",
-        "submitted",
-        "won",
-        "lost",
-        "withdrawn"
-      ]
+      "values": ["watching", "bidding", "submitted", "won", "lost", "withdrawn"]
     },
     "public.role": {
       "name": "role",
       "schema": "public",
-      "values": [
-        "contractor",
-        "admin"
-      ]
+      "values": ["contractor", "admin"]
     }
   },
   "schemas": {},

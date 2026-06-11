@@ -1,6 +1,11 @@
 import type { FNBTPCategory, TradeSpecialty } from "@bina/core";
+import {
+  parseBudgetMAD,
+  parseFrenchDate,
+  parseMaitreDOuvrageType,
+  parseTenderType,
+} from "./parser.js";
 import { inferSpecialties } from "./specialty-keywords.js";
-import { parseBudgetMAD, parseFrenchDate, parseMaitreDOuvrageType, parseTenderType } from "./parser.js";
 import type { RawTender } from "./types.js";
 
 // CSV fallback import (non-negotiable #10): if the portal changes structure,
@@ -15,12 +20,30 @@ export type CsvImportResult = {
   errors: { line: number; message: string }[];
 };
 
-const REQUIRED_HEADERS = ["external_id", "title", "maitre_d_ouvrage", "published_at", "submission_deadline"];
+const REQUIRED_HEADERS = [
+  "external_id",
+  "title",
+  "maitre_d_ouvrage",
+  "published_at",
+  "submission_deadline",
+];
 
 const VALID_SPECIALTIES = new Set<string>([
-  "genie_civil", "batiment", "second_oeuvre", "plomberie", "electricite",
-  "courants_faibles", "hvac", "charpente", "peinture", "architecture",
-  "bureau_etudes", "routes", "hydraulique", "equipment_supplier", "other",
+  "genie_civil",
+  "batiment",
+  "second_oeuvre",
+  "plomberie",
+  "electricite",
+  "courants_faibles",
+  "hvac",
+  "charpente",
+  "peinture",
+  "architecture",
+  "bureau_etudes",
+  "routes",
+  "hydraulique",
+  "equipment_supplier",
+  "other",
 ]);
 
 const VALID_FNBTP = new Set<string>(["premiere", "deuxieme", "troisieme", "non_qualifie"]);
@@ -73,7 +96,10 @@ export function parseTenderCsv(text: string): CsvImportResult {
 
   const missing = REQUIRED_HEADERS.filter((h) => !headers.includes(h));
   if (missing.length > 0) {
-    return { tenders: [], errors: [{ line: 1, message: `colonnes manquantes: ${missing.join(", ")}` }] };
+    return {
+      tenders: [],
+      errors: [{ line: 1, message: `colonnes manquantes: ${missing.join(", ")}` }],
+    };
   }
 
   const col = (fields: string[], name: string): string => {
@@ -96,7 +122,8 @@ export function parseTenderCsv(text: string): CsvImportResult {
       }
 
       const publishedAt = parseFrenchDate(col(fields, "published_at"));
-      if (!publishedAt) throw new Error(`date de publication invalide: ${col(fields, "published_at")}`);
+      if (!publishedAt)
+        throw new Error(`date de publication invalide: ${col(fields, "published_at")}`);
 
       const submissionDeadline = parseFrenchDate(col(fields, "submission_deadline"));
       if (!submissionDeadline)

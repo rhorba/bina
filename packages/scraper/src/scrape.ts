@@ -26,7 +26,10 @@ function sleep(ms: number): Promise<void> {
 
 // Nightly scrape (pg-boss 'scraper.daily', 06:00). Idempotent: upserts by
 // externalId. Rate-limited to 1 request / 3 seconds (non-negotiable #3).
-export async function scrapeMarchesPublics(db: DB, options: ScrapeOptions = {}): Promise<ScrapeResult> {
+export async function scrapeMarchesPublics(
+  db: DB,
+  options: ScrapeOptions = {}
+): Promise<ScrapeResult> {
   const maxPages = options.maxPages ?? MAX_PAGES;
   const rateLimitMs = options.rateLimitMs ?? RATE_LIMIT_MS;
 
@@ -88,8 +91,7 @@ export async function scrapeMarchesPublics(db: DB, options: ScrapeOptions = {}):
       if (pageUrl) await sleep(rateLimitMs);
     }
 
-    const status =
-      errorDetails.length === 0 ? "success" : scraped === 0 ? "failed" : "partial";
+    const status = errorDetails.length === 0 ? "success" : scraped === 0 ? "failed" : "partial";
 
     await db
       .update(scraperRuns)

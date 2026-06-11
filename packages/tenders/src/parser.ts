@@ -135,7 +135,9 @@ export function parseTenderFields(fields: ScrapedTenderFields): RawTender {
   if (!submissionDeadline)
     throw new TenderParseError(fields.externalId, `bad deadline: ${fields.submissionDeadline}`);
 
-  const openingDate = fields.openingDate ? (parseFrenchDate(fields.openingDate) ?? undefined) : undefined;
+  const openingDate = fields.openingDate
+    ? (parseFrenchDate(fields.openingDate) ?? undefined)
+    : undefined;
   const budget = fields.estimatedBudget ? parseBudgetMAD(fields.estimatedBudget) : null;
 
   const fullText = `${fields.title} ${fields.description ?? ""}`;

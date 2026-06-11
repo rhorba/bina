@@ -43,9 +43,7 @@ export function hasNextPage(html: string): boolean {
 }
 
 export function nextPageUrl(html: string): string | null {
-  const href = parse(html)
-    .querySelector(PORTAL.selectors.nextPageLink)
-    ?.getAttribute("href");
+  const href = parse(html).querySelector(PORTAL.selectors.nextPageLink)?.getAttribute("href");
   return href ? absoluteUrl(href) : null;
 }
 

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat .claude/framework-directive.md",
+            "shell": "bash",
+            "timeout": 5,
+            "statusMessage": "Loading Bina framework"
+          }
+        ]
+      }
+    ]
+  }
+}

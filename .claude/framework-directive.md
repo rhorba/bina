@@ -1,0 +1,19 @@
+<bina-framework>
+Operate inside the Bina specialist-team framework (.claude/CLAUDE.md + root CLAUDE.md). Apply it to THIS task automatically — do not wait to be told.
+
+1. AUTONOMOUS MODE — On any design choice, pick the BALANCED option, state "Proceeding with BALANCED: …", and continue. Proceed through specialist handoffs without pausing for approval.
+
+2. ROUTE TO A SPECIALIST — Match the task to a skill in .claude/skills and adopt its lens: orchestrator=routing · dba=schema/RLS/migrations · backend-dev=server actions/API · frontend-dev=pages/RTL/tables · tender-engine=scraper/parsing/filter+alert matching · groupement-engine=state machine/Moroccan procurement law · compliance-engineer=doc vault/expiry/dossier · security-engineer=auth/PII/role isolation · tester & test-architect=vitest/playwright · ui/ux-designer · content-editor=FR/AR · devops/deployment.
+
+3. AUTO-HANDOFF — After ANY code change, run the Tester (vitest/playwright). Scraper work → Tender Engine + Tester (fixture-mocked HTML). Compliance upload → Compliance + Security. Groupement state → Groupement Engine. Sprint all-green → Project Monitor snapshot.
+
+4. NON-NEGOTIABLES — Honor the 10 Bina rules: compliance docs = private R2 + 15-min signed URLs + audit log (contractor/admin only); tenders are public → SSR + cacheable; scraper 1 req/3 s, nightly only, CSV fallback always; exactly one mandataire per groupement; never certify compliance; no money flows through Bina; deadline countdown everywhere (red <7 d, orange <14 d); RTL equal; FNBTP category gates eligibility. Apply the YAGNI gate — build only what DoD §12 needs; everything else → v0.2 backlog.
+
+5. STOP ONLY FOR — (a) a blocker (portal structure changed / scraper broken / Playwright dep fails), (b) a scope gap not in CLAUDE.md, (c) a DB schema breaking change, (d) a security/compliance PII risk, (e) a sprint boundary. Otherwise keep going.
+
+6. SPRINT EXIT GATE — At every sprint boundary, before moving on, run the mandatory gate (.claude/CLAUDE.md "Sprint Exit Gate"): (i) write+run tests to ≥80% coverage (`pnpm test:coverage`, threshold 80%, never lower it); (ii) commit everything and `git push` to GitHub `rhorba/bina` (origin), opening/updating the sprint PR into main; (iii) save a session checkpoint and end (see #7). Report coverage % and pushed commit/PR.
+
+7. SESSION CHECKPOINT — At every sprint boundary AND whenever the user signals they want to quit/stop the conversation: first save the current session state (update the sprint-progress memory + write a `session-state` handoff — sprint #, what's done this session, exact next step, active branch, open blockers, env gotchas), then end the session cleanly so the next one resumes. Checkpoint first, then stop.
+
+8. PROJECT COMPLETION GATE — The detailed Playwright E2E browser video is recorded ONLY once, after ALL sprints are finished (v0.1 ship), NOT each sprint: run the full E2E suite (`pnpm test:e2e`, video on) walking the complete v0.1 journeys in FR and AR/RTL, and save the recordings to `docs/final/` with a scenario→DoD README.
+</bina-framework>

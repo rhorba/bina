@@ -55,10 +55,8 @@ const SPECIALTY_KEYWORDS: Record<Exclude<TradeSpecialty, "other">, string[]> = {
 
 // Lowercase + strip accents so "Électricité" matches "electricite".
 export function normalizeText(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "");
+  // NFD splits accented letters into base + combining mark; \p{M} strips the marks.
+  return text.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
 }
 
 export function inferSpecialties(text: string): TradeSpecialty[] {

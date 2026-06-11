@@ -90,6 +90,46 @@
 
 ---
 
+## Sprint Exit Gate (MANDATORY — run at the end of every sprint, before moving on)
+
+No sprint is "done" until ALL of the following pass. This is in addition to the
+per-task auto-handoff to Tester.
+
+1. **≥ 80% code coverage — written AND run.** Add/extend tests until coverage is
+   ≥ 80% (lines & statements), then prove it: `pnpm test:coverage` (per-package
+   `vitest run --coverage`, threshold 80%). If a package is below 80%, write the
+   missing tests — do not lower the threshold. Coverage report is part of the gate,
+   not optional.
+2. **Push to GitHub every sprint.** Commit the sprint work + coverage report,
+   then `git push` to **`rhorba/bina`** (remote `origin` =
+   `https://github.com/rhorba/bina.git`; GitHub user `rhorba`, project `bina`).
+   Push the sprint branch and open/update its PR into `main`.
+3. **Session checkpoint → end the session.** Save the current session state so the
+   next session resumes seamlessly: update the sprint-progress memory + write a
+   `session-state` handoff (sprint #, what's done this session, exact next step,
+   active branch, open blockers, env gotchas). Then end the session cleanly. Do this
+   at every sprint boundary **and** whenever the user signals they want to quit /
+   stop the conversation — checkpoint first, then stop.
+
+> Stop at the sprint boundary (per Autonomous Mode stop condition #5) to run this
+> gate. Report coverage % and the pushed commit/PR, then save the checkpoint.
+
+---
+
+## Project Completion Gate (run ONCE, after ALL sprints are finished — v0.1 ship)
+
+The detailed browser video is recorded **only when every sprint is done**, not each
+sprint:
+
+- **Record detailed E2E browser video(s) → `docs/`.** Run the full Playwright E2E
+  suite with video on (`pnpm test:e2e`, config sets `video: "on"`). The suite must
+  walk the complete v0.1 user journeys end-to-end (tender radar → filters → detail →
+  saved searches/alerts → groupement → compliance vault/dossier → admin), in FR and
+  in AR/RTL. Save the recordings to `docs/final/` with a `README.md` mapping each
+  video to the scenarios and DoD items (§12) it demonstrates.
+
+---
+
 ## YAGNI Gate
 ```
 "Does Bina v0.1 need this for the DoD (../CLAUDE.md §12)?"

@@ -1,6 +1,6 @@
 import type { TenderFiltersInput } from "@bina/core";
 import { type DB, tenderLots, tenders } from "@bina/db";
-import { and, asc, count, desc, eq, gte, inArray, lte, type SQL, sql } from "drizzle-orm";
+import { type SQL, and, asc, count, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 
 export type TenderRow = typeof tenders.$inferSelect;
 export type TenderLotRow = typeof tenderLots.$inferSelect;
@@ -111,7 +111,13 @@ export async function listTenders(db: DB, filters: TenderFiltersInput): Promise<
   ]);
 
   const total = totalRows[0]?.value ?? 0;
-  return { tenders: rows, total, page, perPage, totalPages: Math.max(1, Math.ceil(total / perPage)) };
+  return {
+    tenders: rows,
+    total,
+    page,
+    perPage,
+    totalPages: Math.max(1, Math.ceil(total / perPage)),
+  };
 }
 
 export async function getTenderWithLots(

@@ -95,16 +95,20 @@
 No sprint is "done" until ALL of the following pass. This is in addition to the
 per-task auto-handoff to Tester.
 
-1. **≥ 80% code coverage — written AND run.** Add/extend tests until coverage is
-   ≥ 80% (lines & statements), then prove it: `pnpm test:coverage` (per-package
-   `vitest run --coverage`, threshold 80%). If a package is below 80%, write the
-   missing tests — do not lower the threshold. Coverage report is part of the gate,
-   not optional.
-2. **Push to GitHub every sprint.** Commit the sprint work + coverage report,
-   then `git push` to **`rhorba/bina`** (remote `origin` =
-   `https://github.com/rhorba/bina.git`; GitHub user `rhorba`, project `bina`).
-   Push the sprint branch and open/update its PR into `main`.
-3. **Session checkpoint → end the session.** Save the current session state so the
+1. **≥ 80% code coverage — written AND run, AND enforced in CI.** Add/extend tests
+   until coverage is ≥ 80% (lines & statements), then prove it: `pnpm test:coverage`
+   (per-package `vitest run --coverage`, threshold 80%). If a package is below 80%,
+   write the missing tests — **never lower the threshold**. The 80% gate also runs in
+   GitHub Actions (`.github/workflows/ci.yml`), so a push below 80% fails CI.
+2. **Push DIRECTLY to `main` — no PRs, no feature branches.** Work on `main`, commit
+   the sprint work, and `git push origin main` to **`rhorba/bina`** (remote `origin` =
+   `https://github.com/rhorba/bina.git`; GitHub user `rhorba`, project `bina`). Do not
+   create branches and do not open pull requests.
+3. **CI must be all green — monitor and fix until it is.** After every push, monitor
+   the run (`gh run watch <id> --exit-status`). If anything fails, diagnose, fix, and
+   re-push — repeat until the run is `completed / success`. A push is not "done" while
+   CI is red.
+4. **Session checkpoint → end the session.** Save the current session state so the
    next session resumes seamlessly: update the sprint-progress memory + write a
    `session-state` handoff (sprint #, what's done this session, exact next step,
    active branch, open blockers, env gotchas). Then end the session cleanly. Do this
@@ -112,7 +116,7 @@ per-task auto-handoff to Tester.
    stop the conversation — checkpoint first, then stop.
 
 > Stop at the sprint boundary (per Autonomous Mode stop condition #5) to run this
-> gate. Report coverage % and the pushed commit/PR, then save the checkpoint.
+> gate. Report coverage % and the pushed commit, confirm CI is green, then checkpoint.
 
 ---
 

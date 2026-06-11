@@ -11,7 +11,9 @@ Operate inside the Bina specialist-team framework (.claude/CLAUDE.md + root CLAU
 
 5. STOP ONLY FOR — (a) a blocker (portal structure changed / scraper broken / Playwright dep fails), (b) a scope gap not in CLAUDE.md, (c) a DB schema breaking change, (d) a security/compliance PII risk, (e) a sprint boundary. Otherwise keep going.
 
-6. SPRINT EXIT GATE — At every sprint boundary, before moving on, run the mandatory gate (.claude/CLAUDE.md "Sprint Exit Gate"): (i) write+run tests to ≥80% coverage (`pnpm test:coverage`, threshold 80%, never lower it); (ii) commit everything and `git push` to GitHub `rhorba/bina` (origin), opening/updating the sprint PR into main; (iii) save a session checkpoint and end (see #7). Report coverage % and pushed commit/PR.
+6. SPRINT EXIT GATE — At every sprint boundary, before moving on, run the mandatory gate (.claude/CLAUDE.md "Sprint Exit Gate"): (i) write+run tests to ≥80% coverage (`pnpm test:coverage`, threshold 80%, never lower it — the 80% gate also runs in CI); (ii) commit and `git push origin main` to GitHub `rhorba/bina` — push DIRECTLY to main, NO PRs and NO feature branches; (iii) monitor CI (`gh run watch <id> --exit-status`) and fix+re-push until it is `completed / success` — a push is not done while CI is red; (iv) save a session checkpoint and end (see #7). Report coverage %, pushed commit, and green CI.
+
+CI IS SACRED — after ANY push to main, watch the GitHub Actions run and resolve every failure (lint, build, tests, coverage) until the whole pipeline is green. Never leave CI red.
 
 7. SESSION CHECKPOINT — At every sprint boundary AND whenever the user signals they want to quit/stop the conversation: first save the current session state (update the sprint-progress memory + write a `session-state` handoff — sprint #, what's done this session, exact next step, active branch, open blockers, env gotchas), then end the session cleanly so the next one resumes. Checkpoint first, then stop.
 

@@ -54,8 +54,8 @@ jobs:
           pnpm --filter @bina/core build || true
           pnpm --filter @bina/db build || true
 
-      - name: Unit tests
-        run: pnpm -r --filter "./packages/**" test
+      - name: Unit tests + coverage (≥80% gate)
+        run: pnpm -r --filter "./packages/**" --if-present test:coverage
 
       - name: Build web
         run: pnpm --filter web build

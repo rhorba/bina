@@ -71,4 +71,48 @@ describe("extractTenderDetail", () => {
     expect(tender.lots[1]?.requiredSpecialties).toContain("peinture"); // étanchéité
     expect(tender.submissionDeadline.toISOString()).toBe("2026-07-15T10:00:00.000Z");
   });
+
+  test("optional fields and incomplete lots are dropped (not invented)", () => {
+    // Title + maître d'ouvrage only; every optional field and the dossier link absent,
+    // one lot missing its title — exercises the falsy/undefined branches.
+    const html = `
+      <div class="consultation-objet">Travaux divers</div>
+      <div class="consultation-organisme">Commune de Test</div>
+      <table class="table-lots">
+        <tr class="row-lot"><td class="lot-numero">1</td><td class="lot-intitule"></td></tr>
+        <tr class="row-lot"><td class="lot-numero">2</td><td class="lot-intitule">Lot valide</td><td class="lot-estimation"></td></tr>
+      </table>`;
+    const fields = extractTenderDetail(html, "MP-X");
+
+    expect(fields.title).toBe("Travaux divers");
+    expect(fields.region).toBeUndefined();
+    expect(fields.estimatedBudget).toBeUndefined();
+    expect(fields.procedureType).toBeUndefined();
+    expect(fields.openingDate).toBeUndefined();
+    expect(fields.description).toBeUndefined();
+    expect(fields.dossierUrl).toBeUndefined();
+    expect(fields.lots).toEqual([
+      { lotNumber: 2, lotTitle: "Lot valide", estimatedBudget: undefined },
+    ]);
+  });
+});
+
+describe("absoluteUrl (via extractTenderList)", () => {
+  test("resolves relative, root-relative, and absolute hrefs; skips invalid rows", () => {
+    const html = `
+      <table class="table-results">
+        <tr class="row-consultation"><td class="ref-consultation">MP-A</td><td><a class="detail-consultation" href="/abs">x</a></td></tr>
+        <tr class="row-consultation"><td class="ref-consultation">MP-B</td><td><a class="detail-consultation" href="rel">x</a></td></tr>
+        <tr class="row-consultation"><td class="ref-consultation">MP-C</td><td><a class="detail-consultation" href="https://ext.example/x">x</a></td></tr>
+        <tr class="row-consultation"><td class="ref-consultation"></td><td><a class="detail-consultation" href="/skip">x</a></td></tr>
+        <tr class="row-consultation"><td><a class="detail-consultation" href="/no-ref">x</a></td></tr>
+        <tr class="row-consultation"><td class="ref-consultation">MP-D</td></tr>
+      </table>`;
+    const entries = extractTenderList(html);
+
+    expect(entries.map((e) => e.externalId)).toEqual(["MP-A", "MP-B", "MP-C"]);
+    expect(entries[0]?.detailUrl).toBe("https://www.marchespublics.gov.ma/abs");
+    expect(entries[1]?.detailUrl).toBe("https://www.marchespublics.gov.ma/rel");
+    expect(entries[2]?.detailUrl).toBe("https://ext.example/x");
+  });
 });

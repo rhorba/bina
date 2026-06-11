@@ -158,6 +158,47 @@ CREATE POLICY groupement_members_select ON groupement_members
     )
   );
 
+-- Helper: is the current user the active mandataire of this groupement?
+-- (Décret 2-12-349 — the lead firm drives membership + status changes.)
+CREATE OR REPLACE FUNCTION is_groupement_mandataire(gid uuid) RETURNS boolean AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM groupement_members gm
+    JOIN contractor_profiles cp ON cp.id = gm.contractor_id
+    WHERE gm.groupement_id = gid
+      AND gm.role = 'mandataire'
+      AND gm.status = 'confirmed'
+      AND cp.user_id = current_app_user_id()
+  );
+$$ LANGUAGE sql STABLE;
+
+-- INSERT: a contractor adds their OWN row (the initiator joining as mandataire),
+-- or the active mandataire invites another firm as cotraitant. Admin always.
+DROP POLICY IF EXISTS groupement_members_insert ON groupement_members;
+CREATE POLICY groupement_members_insert ON groupement_members
+  FOR INSERT WITH CHECK (
+    is_admin() OR
+    EXISTS (
+      SELECT 1 FROM contractor_profiles cp
+      WHERE cp.id = groupement_members.contractor_id
+        AND cp.user_id = current_app_user_id()
+    ) OR
+    is_groupement_mandataire(groupement_members.groupement_id)
+  );
+
+-- UPDATE: a member changes their OWN row (respond to invite / leave), or the
+-- mandataire updates a member (shares, status). Admin always.
+DROP POLICY IF EXISTS groupement_members_update ON groupement_members;
+CREATE POLICY groupement_members_update ON groupement_members
+  FOR UPDATE USING (
+    is_admin() OR
+    EXISTS (
+      SELECT 1 FROM contractor_profiles cp
+      WHERE cp.id = groupement_members.contractor_id
+        AND cp.user_id = current_app_user_id()
+    ) OR
+    is_groupement_mandataire(groupement_members.groupement_id)
+  );
+
 -- 10. project_references — own contractor (write) + public (read)
 DROP POLICY IF EXISTS project_references_select ON project_references;
 CREATE POLICY project_references_select ON project_references

@@ -20,6 +20,39 @@
 
 ---
 
+## Specialist Skill Invocation (NON-NEGOTIABLE — applies to ALL sprints, ALL sessions)
+
+**For every task, invoke the matching specialist skill via the Skill tool — applying the
+specialist's rules inline is NOT sufficient, the Skill MUST actually be called.**
+
+- Match the task to its specialist and call it through the Skill tool BEFORE writing the
+  code/output for that task:
+  - `dba` — schema, RLS, migrations
+  - `backend-dev` — server actions, API routes
+  - `frontend-dev` — pages, RTL, data tables, components
+  - `tender-engine` — scraper, parsing, filter + alert matching
+  - `groupement-engine` — state machine, workspace, Moroccan procurement law
+  - `compliance-engineer` — document vault, expiry, dossier builder
+  - `security-engineer` — auth, PII, role isolation
+  - `content-editor` — FR/AR translations, BTP/procurement vocabulary
+  - `ui-designer` / `ux-designer` — tokens, wireframes, contractor UX
+  - `tester` / `test-architect` — vitest/playwright, adversarial cases
+  - `devops-devsecops` — Docker, CI, secrets
+  - `deployment` — Vercel + Docker verify
+  - `tech-lead` — architecture, ADRs, stack enforcement
+  - `orchestrator` — session start, routing across multiple specialists
+- A task spanning multiple domains invokes each relevant skill (e.g. a new page touching the
+  DB invokes `dba`, then `backend-dev`, then `frontend-dev`).
+- **After ANY code change, the `tester` skill is a MANDATORY auto-handoff — it MUST be
+  invoked via the Skill tool, every time.** Domain auto-handoffs from the table below also
+  fire as real Skill calls (scraper → `tender-engine` + `tester`; compliance upload →
+  `compliance-engineer` + `security-engineer`; groupement state → `groupement-engine`;
+  sprint all-green → `project-monitor`).
+- This rule never lapses across sessions or sprints — it is enforced on every prompt via the
+  `UserPromptSubmit` hook (`.claude/framework-directive.md`).
+
+---
+
 ## Sprint System
 
 | Sprint | Goal |

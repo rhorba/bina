@@ -1,4 +1,6 @@
+import { db } from "@bina/db";
 import { runDailyScrape } from "@bina/scraper";
+import { runAlertSweep } from "@bina/tenders";
 import PgBoss from "pg-boss";
 import { CRON_SCHEDULES, QUEUES } from "./queues.js";
 
@@ -24,10 +26,16 @@ async function registerWorkers() {
     }
   });
 
-  // alert.sweep — Sprint 3
+  // alert.sweep — daily 7am: match new tenders to saved searches → notifications
   await boss.work(QUEUES.ALERT_SWEEP, async (jobs) => {
-    console.log("[alert.sweep] jobs received:", jobs.map((j) => j.id).join(", "));
-    // TODO Sprint 3: import and run alert sweep
+    for (const job of jobs) {
+      console.log("[alert.sweep] job received:", job.id);
+      const result = await runAlertSweep(db);
+      console.log(
+        `[alert.sweep] done — ${result.searchesProcessed} searches, ` +
+          `${result.newMatches} new matches, ${result.notificationsCreated} notifications`
+      );
+    }
   });
 
   // doc.expiry.sweep — Sprint 5

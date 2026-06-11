@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils.js";
 import {
   Bell,
+  ClipboardList,
   FolderCheck,
   HardHat,
   LayoutDashboard,
@@ -28,6 +29,7 @@ function buildNavItems(locale: string): NavItem[] {
     { href: `/${locale}/groupements`, labelKey: "groupements", icon: Users },
     { href: `/${locale}/dossier`, labelKey: "compliance", icon: FolderCheck },
     { href: `/${locale}/alertes`, labelKey: "savedSearches", icon: Bell },
+    { href: `/${locale}/suivis`, labelKey: "tracking", icon: ClipboardList },
     { href: `/${locale}/profil`, labelKey: "profile", icon: User },
   ];
 }

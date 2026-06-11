@@ -16,6 +16,10 @@ export default defineConfig({
         "src/query.ts",
         "src/upsert.ts",
         "src/csv-import.ts",
+        // Sprint 3 DB glue — covered by integration/E2E, not unit tests.
+        "src/alert.ts",
+        "src/saved-searches.ts",
+        "src/tracking.ts",
       ],
       // Sprint Exit Gate (.claude/CLAUDE.md): ≥80% — never lower, raise coverage instead.
       thresholds: { lines: 80, statements: 80, functions: 80, branches: 80 },

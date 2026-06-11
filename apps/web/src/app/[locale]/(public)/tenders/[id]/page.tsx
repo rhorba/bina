@@ -1,11 +1,23 @@
+import { getSession } from "@/auth/index.js";
 import { DeadlineChip, StatusChip } from "@/components/tender/chips.js";
 import { formatBudgetRange, formatMAD } from "@bina/core";
 import { db } from "@bina/db";
-import { getTenderWithLots } from "@bina/tenders";
-import { ArrowLeft, Building2, Calendar, Download, FileText, MapPin, Medal } from "lucide-react";
+import { getTenderWithLots, getTrackedTender } from "@bina/tenders";
+import {
+  ArrowLeft,
+  BookmarkCheck,
+  BookmarkPlus,
+  Building2,
+  Calendar,
+  Download,
+  FileText,
+  MapPin,
+  Medal,
+} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { trackTenderAction, untrackTenderAction } from "./actions";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -26,11 +38,17 @@ export default async function TenderDetailPage({ params }: Props) {
   if (!res) notFound();
   const { tender, lots } = res;
 
-  const [t, tSpec, tComp] = await Promise.all([
+  const [t, tSpec, tComp, session] = await Promise.all([
     getTranslations("tender"),
     getTranslations("specialty"),
     getTranslations("compliance"),
+    getSession(),
   ]);
+
+  const isContractor = session?.role === "contractor" && Boolean(session.contractorId);
+  const tracked = isContractor
+    ? Boolean(await getTrackedTender(db, session.contractorId as string, id))
+    : false;
 
   const moneyLocale = locale === "ar" ? "ar" : "fr";
   const dateFormatter = new Intl.DateTimeFormat(locale === "ar" ? "ar-MA" : "fr-MA", {
@@ -209,16 +227,42 @@ export default async function TenderDetailPage({ params }: Props) {
             )}
           </div>
 
-          {/* Acquisition CTA — track + groupement require an account */}
-          <div className="mt-3 bg-[var(--color-primary)]/5 rounded-[var(--radius-card)] border border-[var(--color-primary)]/20 p-4 text-center">
-            <p className="text-sm text-[var(--color-foreground)] mb-3">{t("createGroupement")}</p>
-            <Link
-              href={`/${locale}/auth/signup`}
-              className="inline-block bg-[var(--color-accent)] text-white text-sm font-semibold rounded-lg px-4 py-2 hover:opacity-90 transition"
-            >
-              {t("track")}
-            </Link>
-          </div>
+          {/* Track toggle for logged-in contractors; acquisition CTA otherwise */}
+          {isContractor ? (
+            tracked ? (
+              <form action={untrackTenderAction} className="mt-3">
+                <input type="hidden" name="tenderId" value={tender.id} />
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-ok)]/10 text-[var(--color-ok)] border border-[var(--color-ok)] text-sm font-semibold rounded-lg px-4 py-2.5 hover:bg-[var(--color-ok)]/15 transition"
+                >
+                  <BookmarkCheck size={16} />
+                  {t("untrack")}
+                </button>
+              </form>
+            ) : (
+              <form action={trackTenderAction} className="mt-3">
+                <input type="hidden" name="tenderId" value={tender.id} />
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] text-white text-sm font-semibold rounded-lg px-4 py-2.5 hover:opacity-90 transition"
+                >
+                  <BookmarkPlus size={16} />
+                  {t("track")}
+                </button>
+              </form>
+            )
+          ) : (
+            <div className="mt-3 bg-[var(--color-primary)]/5 rounded-[var(--radius-card)] border border-[var(--color-primary)]/20 p-4 text-center">
+              <p className="text-sm text-[var(--color-foreground)] mb-3">{t("createGroupement")}</p>
+              <Link
+                href={`/${locale}/auth/signup`}
+                className="inline-block bg-[var(--color-accent)] text-white text-sm font-semibold rounded-lg px-4 py-2 hover:opacity-90 transition"
+              >
+                {t("track")}
+              </Link>
+            </div>
+          )}
         </aside>
       </div>
     </div>

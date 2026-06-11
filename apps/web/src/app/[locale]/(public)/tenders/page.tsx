@@ -1,12 +1,25 @@
+import { getSession } from "@/auth/index.js";
 import { DeadlineChip, StatusChip } from "@/components/tender/chips.js";
 import { type SearchParams, buildPageHref, parseTenderFilters } from "@/lib/tender-filters.js";
 import { formatBudgetRange } from "@bina/core";
 import { db } from "@bina/db";
 import { listTenderRegions, listTenders } from "@bina/tenders";
-import { Building2, MapPin } from "lucide-react";
+import { Bell, Building2, MapPin } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { TenderFilters } from "./_filters.js";
+
+// Preserve the current filter querystring (minus pagination) so the radar's
+// "save this search" link hands the same filters to the /alertes create form.
+function saveSearchHref(locale: string, sp: SearchParams): string {
+  const p = new URLSearchParams();
+  for (const [key, value] of Object.entries(sp)) {
+    if (key === "page" || value === undefined) continue;
+    for (const v of Array.isArray(value) ? value : [value]) p.append(key, v);
+  }
+  const qs = p.toString();
+  return `/${locale}/alertes${qs ? `?${qs}` : ""}`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -31,12 +44,14 @@ export default async function TendersPage({ params, searchParams }: Props) {
   const selectedStatus = filters.status ?? ["open", "closing_soon"];
   const queryFilters = { ...filters, status: selectedStatus };
 
-  const [result, regions, t, tNav, tSpec] = await Promise.all([
+  const [result, regions, t, tNav, tSpec, tAlerts, session] = await Promise.all([
     listTenders(db, queryFilters),
     listTenderRegions(db),
     getTranslations("tender"),
     getTranslations("nav"),
     getTranslations("specialty"),
+    getTranslations("alerts"),
+    getSession(),
   ]);
 
   const moneyLocale = locale === "ar" ? "ar" : "fr";
@@ -48,11 +63,22 @@ export default async function TendersPage({ params, searchParams }: Props) {
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[var(--color-foreground)]">{tNav("radar")}</h1>
-        <p className="text-sm text-[var(--color-muted)] mt-1">
-          {t("resultsCount", { count: result.total })}
-        </p>
+      <div className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[var(--color-foreground)]">{tNav("radar")}</h1>
+          <p className="text-sm text-[var(--color-muted)] mt-1">
+            {t("resultsCount", { count: result.total })}
+          </p>
+        </div>
+        {session?.contractorId && (
+          <Link
+            href={saveSearchHref(locale, sp)}
+            className="inline-flex items-center gap-1.5 shrink-0 text-sm font-medium rounded-lg border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/8 px-4 py-2 transition"
+          >
+            <Bell size={15} />
+            {tAlerts("saveCurrent")}
+          </Link>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">

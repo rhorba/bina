@@ -11,6 +11,19 @@ Reproduce: `docker compose up -d postgres` → `pnpm --filter @bina/db setup`
 seed: `hassan.plomberie@demo.bina.ma / demo1234` (contractor) and
 `admin@bina.ma / admin1234` (admin).
 
+## ▶ Combined walkthrough
+
+**`00-bina-v0.1-full-walkthrough.mp4`** — all five scenarios below stitched into a
+single 75 s H.264 video, in journey order (public radar → contractor FR → contractor
+AR/RTL → admin FR → admin AR/RTL). Rebuild it from the clips with:
+
+```bash
+cd docs/final
+printf "file '01-tender-radar-public.webm'\nfile '02-contractor-journey-fr.webm'\nfile '03-contractor-journey-ar-rtl.webm'\nfile '04-admin-journey-fr.webm'\nfile '05-admin-journey-ar-rtl.webm'\n" > concat-list.txt
+ffmpeg -y -f concat -safe 0 -i concat-list.txt -c:v libx264 -crf 23 -pix_fmt yuv420p -r 25 -an 00-bina-v0.1-full-walkthrough.mp4
+rm concat-list.txt
+```
+
 ## Videos → scenarios → DoD (CLAUDE.md §12)
 
 | Video | Journey | DoD §12 items demonstrated |

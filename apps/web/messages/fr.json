@@ -225,6 +225,11 @@
   "compliance": {
     "title": "Mon dossier réglementaire",
     "subtitle": "Centralisez vos documents de conformité — alertes d'expiration et génération de dossier en un clic.",
+    "fnbtpCategory": {
+      "premiere": "1ère catégorie",
+      "deuxieme": "2ème catégorie",
+      "troisieme": "3ème catégorie"
+    },
     "complianceScore": "Complétude du dossier",
     "scoreComplete": "Dossier complet — tous les documents requis sont présents.",
     "scoreMissing": "Documents manquants :",

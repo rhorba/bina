@@ -28,8 +28,12 @@ ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
 -- (public procurement data, acquisition hook)
 
 -- 4. Helper: current app user
+-- NULLIF guards the ''::uuid cast: once withUserContext SETs this GUC on a
+-- pooled connection, it reverts to '' (not NULL) after the transaction, so a
+-- later plain-db read would otherwise crash with "invalid input syntax for
+-- type uuid: \"\"". Empty/unset → NULL → policies treat the caller as anonymous.
 CREATE OR REPLACE FUNCTION current_app_user_id() RETURNS uuid AS $$
-  SELECT current_setting('app.current_user_id', true)::uuid;
+  SELECT NULLIF(current_setting('app.current_user_id', true), '')::uuid;
 $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION current_app_user_role() RETURNS text AS $$
@@ -139,26 +143,27 @@ CREATE POLICY saved_searches_all ON saved_searches
   );
 
 -- 9. groupement_members — members of the groupement + admin
-DROP POLICY IF EXISTS groupement_members_select ON groupement_members;
-CREATE POLICY groupement_members_select ON groupement_members
-  FOR SELECT USING (
-    is_admin() OR
-    EXISTS (
-      SELECT 1 FROM groupement_members gm2
-      JOIN contractor_profiles cp ON cp.id = gm2.contractor_id
-      WHERE gm2.groupement_id = groupement_members.groupement_id
-        AND cp.user_id = current_app_user_id()
-        AND gm2.status = 'confirmed'
-    ) OR
-    -- The invited member can see their own invite
-    EXISTS (
-      SELECT 1 FROM contractor_profiles cp
-      WHERE cp.id = groupement_members.contractor_id
-        AND cp.user_id = current_app_user_id()
-    )
-  );
+--
+-- RLS recursion guard: a policy ON groupement_members must NOT read
+-- groupement_members inline — Postgres re-applies the same policy to that inner
+-- read, recursing forever ("infinite recursion detected in policy"). So every
+-- membership/mandataire lookup goes through a SECURITY DEFINER function. These
+-- functions run as their owner (the superuser that applies rls.sql), which
+-- bypasses RLS, breaking the cycle. current_app_user_id() still reads the
+-- per-request app.current_user_id GUC, so the check stays user-scoped.
 
--- Helper: is the current user the active mandataire of this groupement?
+-- Is the current app user a CONFIRMED member of this groupement?
+CREATE OR REPLACE FUNCTION is_groupement_member(gid uuid) RETURNS boolean AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM groupement_members gm
+    JOIN contractor_profiles cp ON cp.id = gm.contractor_id
+    WHERE gm.groupement_id = gid
+      AND gm.status = 'confirmed'
+      AND cp.user_id = current_app_user_id()
+  );
+$$ LANGUAGE sql STABLE SECURITY DEFINER;
+
+-- Is the current app user the active mandataire of this groupement?
 -- (Décret 2-12-349 — the lead firm drives membership + status changes.)
 CREATE OR REPLACE FUNCTION is_groupement_mandataire(gid uuid) RETURNS boolean AS $$
   SELECT EXISTS (
@@ -169,20 +174,37 @@ CREATE OR REPLACE FUNCTION is_groupement_mandataire(gid uuid) RETURNS boolean AS
       AND gm.status = 'confirmed'
       AND cp.user_id = current_app_user_id()
   );
-$$ LANGUAGE sql STABLE;
+$$ LANGUAGE sql STABLE SECURITY DEFINER;
+
+-- Does a contractor row belong to the current app user? (Own invite / own row.)
+-- Reads contractor_profiles, never groupement_members — no recursion — but go
+-- through a definer function too so the lookup ignores contractor_profiles RLS.
+CREATE OR REPLACE FUNCTION owns_contractor(cid uuid) RETURNS boolean AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM contractor_profiles cp
+    WHERE cp.id = cid
+      AND cp.user_id = current_app_user_id()
+  );
+$$ LANGUAGE sql STABLE SECURITY DEFINER;
+
+-- SELECT: confirmed members see the whole roster; an invited firm sees its own
+-- row (so it can accept/decline). Admin always.
+DROP POLICY IF EXISTS groupement_members_select ON groupement_members;
+CREATE POLICY groupement_members_select ON groupement_members
+  FOR SELECT USING (
+    is_admin()
+    OR is_groupement_member(groupement_members.groupement_id)
+    OR owns_contractor(groupement_members.contractor_id)
+  );
 
 -- INSERT: a contractor adds their OWN row (the initiator joining as mandataire),
 -- or the active mandataire invites another firm as cotraitant. Admin always.
 DROP POLICY IF EXISTS groupement_members_insert ON groupement_members;
 CREATE POLICY groupement_members_insert ON groupement_members
   FOR INSERT WITH CHECK (
-    is_admin() OR
-    EXISTS (
-      SELECT 1 FROM contractor_profiles cp
-      WHERE cp.id = groupement_members.contractor_id
-        AND cp.user_id = current_app_user_id()
-    ) OR
-    is_groupement_mandataire(groupement_members.groupement_id)
+    is_admin()
+    OR owns_contractor(groupement_members.contractor_id)
+    OR is_groupement_mandataire(groupement_members.groupement_id)
   );
 
 -- UPDATE: a member changes their OWN row (respond to invite / leave), or the
@@ -190,13 +212,9 @@ CREATE POLICY groupement_members_insert ON groupement_members
 DROP POLICY IF EXISTS groupement_members_update ON groupement_members;
 CREATE POLICY groupement_members_update ON groupement_members
   FOR UPDATE USING (
-    is_admin() OR
-    EXISTS (
-      SELECT 1 FROM contractor_profiles cp
-      WHERE cp.id = groupement_members.contractor_id
-        AND cp.user_id = current_app_user_id()
-    ) OR
-    is_groupement_mandataire(groupement_members.groupement_id)
+    is_admin()
+    OR owns_contractor(groupement_members.contractor_id)
+    OR is_groupement_mandataire(groupement_members.groupement_id)
   );
 
 -- 10. project_references — own contractor (write) + public (read)

@@ -13,6 +13,9 @@ export default defineConfig({
   forbidOnly: !!process.env["CI"],
   retries: process.env["CI"] ? 1 : 0,
   workers: 1,
+  // Dev-mode compiles each route on first navigation — give tests room.
+  timeout: 90_000,
+  expect: { timeout: 15_000 },
   reporter: [["list"], ["html", { outputFolder: "playwright-report", open: "never" }]],
   use: {
     baseURL: BASE_URL,

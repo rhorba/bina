@@ -1,4 +1,5 @@
-import { db, getGroupementsOverview } from "@bina/db";
+import { getSession } from "@/auth/index.js";
+import { db, getGroupementsOverview, withUserContext } from "@bina/db";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
@@ -22,7 +23,12 @@ export default async function AdminGroupementsPage({ params }: Props) {
   const tg = await getTranslations("groupement");
   const dateLocale = locale === "ar" ? "ar-MA" : "fr-MA";
 
-  const rows = await getGroupementsOverview(db);
+  // memberCount reads RLS-guarded groupement_members — run as admin so the
+  // moderation view counts every member, not just the caller's own rows.
+  const session = await getSession();
+  const rows = session
+    ? await withUserContext(session.userId, "admin", (tx) => getGroupementsOverview(tx))
+    : await getGroupementsOverview(db);
 
   return (
     <div className="max-w-4xl">

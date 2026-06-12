@@ -1,4 +1,5 @@
-import { db, getAdminKpis, getRecentScraperRuns } from "@bina/db";
+import { getSession } from "@/auth/index.js";
+import { db, getAdminKpis, getRecentScraperRuns, withUserContext } from "@bina/db";
 import { deriveScraperHealth } from "@bina/tenders";
 import { Activity, Bell, FileText, ShieldCheck, Users2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -12,8 +13,15 @@ type Props = { params: Promise<{ locale: string }> };
 export default async function AdminDashboardPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations("admin");
+  const session = await getSession();
 
-  const [kpis, runs] = await Promise.all([getAdminKpis(db), getRecentScraperRuns(db, 1)]);
+  // Admin KPIs span RLS-guarded tables (notifications, groupement_members), so
+  // they must run with the admin's user context for is_admin() to grant the
+  // full-platform view. Scraper_runs has no RLS — plain db is fine.
+  const [kpis, runs] = await Promise.all([
+    session ? withUserContext(session.userId, "admin", (tx) => getAdminKpis(tx)) : getAdminKpis(db),
+    getRecentScraperRuns(db, 1),
+  ]);
   const health = deriveScraperHealth(runs[0] ?? null);
 
   const cards = [

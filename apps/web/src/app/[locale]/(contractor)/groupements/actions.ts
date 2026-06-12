@@ -1,7 +1,15 @@
 "use server";
 import { getSession } from "@/auth/index.js";
 import { createGroupementSchema, inviteMemberSchema } from "@bina/core";
-import { auditLogs, withUserContext } from "@bina/db";
+import {
+  auditLogs,
+  contractorProfiles,
+  db,
+  groupementMembers,
+  groupements,
+  users,
+  withUserContext,
+} from "@bina/db";
 import {
   type GroupementStatus,
   createGroupement,
@@ -12,6 +20,8 @@ import {
   transitionGroupementStatus,
   updateWorkspaceNotes,
 } from "@bina/groupement";
+import { notify } from "@bina/notifications";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -91,9 +101,11 @@ export async function inviteCotraitantAction(formData: FormData): Promise<void> 
   if (!parsed.success) return;
   const { groupementId, contractorId, specialty, estimatedShare } = parsed.data;
 
+  let invited = false;
   await withUserContext(session.userId, session.role, async (tx) => {
     const res = await inviteCotraitant(tx, groupementId, contractorId, specialty, estimatedShare);
     if (res.ok) {
+      invited = true;
       await tx.insert(auditLogs).values({
         actorUserId: session.userId,
         entity: "groupement",
@@ -103,6 +115,10 @@ export async function inviteCotraitantAction(formData: FormData): Promise<void> 
       });
     }
   });
+  // Notify the invited partner (in-app + best-effort email). Never blocks the invite.
+  if (invited && session.contractorId) {
+    await notifyGroupementInvite(groupementId, contractorId, session.contractorId);
+  }
   revalidatePath("/", "layout");
 }
 
@@ -119,9 +135,11 @@ export async function requestJoinAction(formData: FormData): Promise<void> {
   if (typeof groupementId !== "string" || !groupementId) return;
   if (typeof specialty !== "string" || !specialty) return;
 
+  let requested = false;
   await withUserContext(session.userId, session.role, async (tx) => {
     const res = await inviteCotraitant(tx, groupementId, contractorId, specialty);
     if (res.ok) {
+      requested = true;
       await tx.insert(auditLogs).values({
         actorUserId: session.userId,
         entity: "groupement",
@@ -131,6 +149,10 @@ export async function requestJoinAction(formData: FormData): Promise<void> {
       });
     }
   });
+  // Notify the mandataire that someone wants to join (in-app + best-effort email).
+  if (requested) {
+    await notifyJoinRequest(groupementId, contractorId);
+  }
   revalidatePath("/", "layout");
 }
 
@@ -271,4 +293,89 @@ function estShareToCentimes(raw: FormDataEntryValue | null): number | undefined 
   const n = Number(raw);
   if (!Number.isFinite(n) || n <= 0) return undefined;
   return Math.round(n * 100);
+}
+
+// Notify the invited cotraitant. System-generated → uses plain `db` (notifications
+// INSERT is WITH CHECK true). Lookups: invited user (email), groupement title,
+// inviter company name. Best-effort — a failure here never breaks the invite.
+async function notifyGroupementInvite(
+  groupementId: string,
+  invitedContractorId: string,
+  inviterContractorId: string
+): Promise<void> {
+  try {
+    const [invited] = await db
+      .select({ userId: contractorProfiles.userId, email: users.email })
+      .from(contractorProfiles)
+      .innerJoin(users, eq(contractorProfiles.userId, users.id))
+      .where(eq(contractorProfiles.id, invitedContractorId))
+      .limit(1);
+    if (!invited) return;
+
+    const [g] = await db
+      .select({ title: groupements.title })
+      .from(groupements)
+      .where(eq(groupements.id, groupementId))
+      .limit(1);
+    const [inviter] = await db
+      .select({ companyName: contractorProfiles.companyName })
+      .from(contractorProfiles)
+      .where(eq(contractorProfiles.id, inviterContractorId))
+      .limit(1);
+
+    await notify(db, {
+      userId: invited.userId,
+      email: invited.email,
+      kind: "groupement_invite",
+      data: { groupementTitle: g?.title, groupementId, inviterName: inviter?.companyName },
+    });
+  } catch (err) {
+    console.error("[groupement] invite notification failed:", err);
+  }
+}
+
+// Notify the mandataire that a contractor requested to join their groupement.
+async function notifyJoinRequest(
+  groupementId: string,
+  requesterContractorId: string
+): Promise<void> {
+  try {
+    const [mandataire] = await db
+      .select({ userId: contractorProfiles.userId, email: users.email })
+      .from(groupementMembers)
+      .innerJoin(contractorProfiles, eq(groupementMembers.contractorId, contractorProfiles.id))
+      .innerJoin(users, eq(contractorProfiles.userId, users.id))
+      .where(
+        and(
+          eq(groupementMembers.groupementId, groupementId),
+          eq(groupementMembers.role, "mandataire")
+        )
+      )
+      .limit(1);
+    if (!mandataire) return;
+
+    const [g] = await db
+      .select({ title: groupements.title })
+      .from(groupements)
+      .where(eq(groupements.id, groupementId))
+      .limit(1);
+    const [requester] = await db
+      .select({ companyName: contractorProfiles.companyName })
+      .from(contractorProfiles)
+      .where(eq(contractorProfiles.id, requesterContractorId))
+      .limit(1);
+
+    await notify(db, {
+      userId: mandataire.userId,
+      email: mandataire.email,
+      kind: "groupement_update",
+      data: {
+        groupementTitle: g?.title,
+        groupementId,
+        message: `${requester?.companyName ?? "Une entreprise"} demande à rejoindre votre groupement`,
+      },
+    });
+  } catch (err) {
+    console.error("[groupement] join-request notification failed:", err);
+  }
 }

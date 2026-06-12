@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 type Props = {
   locale: string;
   title?: string;
+  unreadCount?: number;
 };
 
 const LOCALE_LABELS: Record<string, string> = {
@@ -18,9 +19,11 @@ const ALTERNATE_LOCALE: Record<string, string> = {
   ar: "fr",
 };
 
-export function TopBar({ locale, title }: Props) {
+export function TopBar({ locale, title, unreadCount = 0 }: Props) {
   const router = useRouter();
   const altLocale = ALTERNATE_LOCALE[locale] ?? "fr";
+  const hasUnread = unreadCount > 0;
+  const badge = unreadCount > 9 ? "9+" : String(unreadCount);
 
   function switchLocale() {
     // Replace the locale prefix in the current URL
@@ -52,11 +55,19 @@ export function TopBar({ locale, title }: Props) {
 
         {/* Notifications */}
         <Link
-          href={`/${locale}/alertes`}
-          className="relative p-1.5 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-bg)] transition"
-          aria-label="Notifications"
+          href={`/${locale}/notifications`}
+          className="relative p-1.5 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-bg)] transition focus-visible:outline-2 focus-visible:outline-[var(--color-primary)]"
+          aria-label={hasUnread ? `Notifications (${unreadCount})` : "Notifications"}
         >
-          <Bell size={18} />
+          <Bell size={18} aria-hidden="true" />
+          {hasUnread && (
+            <span
+              className="absolute -top-0.5 -end-0.5 min-w-4 h-4 px-1 flex items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-primary-fg)] text-[10px] font-bold leading-none"
+              aria-hidden="true"
+            >
+              {badge}
+            </span>
+          )}
         </Link>
       </div>
     </header>

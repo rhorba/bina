@@ -15,6 +15,7 @@
   "dependencies": {
     "@bina/core": "workspace:*",
     "@bina/db": "workspace:*",
+    "@bina/notifications": "workspace:*",
     "drizzle-orm": "^0.38.3"
   },
   "devDependencies": {

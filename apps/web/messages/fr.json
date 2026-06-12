@@ -213,6 +213,15 @@
     "viewTender": "Voir le marché",
     "updateStatus": "Mettre à jour"
   },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Nouveaux marchés correspondants, invitations à un groupement et échéances de vos documents.",
+    "markAllRead": "Tout marquer comme lu",
+    "markRead": "Marquer comme lu",
+    "empty": "Aucune notification",
+    "emptyHint": "Vous serez prévenu ici dès qu'un marché correspond à vos alertes ou qu'un partenaire vous invite à un groupement.",
+    "unread": "Non lue"
+  },
   "compliance": {
     "title": "Mon dossier réglementaire",
     "subtitle": "Centralisez vos documents de conformité — alertes d'expiration et génération de dossier en un clic.",

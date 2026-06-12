@@ -9,8 +9,10 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@bina/compliance": "workspace:*",
     "@bina/core": "workspace:*",
     "@bina/db": "workspace:*",
+    "@bina/notifications": "workspace:*",
     "@bina/scraper": "workspace:*",
     "@bina/tenders": "workspace:*",
     "pg-boss": "^10.1.4"

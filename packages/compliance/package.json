@@ -15,6 +15,7 @@
   "dependencies": {
     "@bina/core": "workspace:*",
     "@bina/db": "workspace:*",
+    "@bina/notifications": "workspace:*",
     "@aws-sdk/client-s3": "^3.717.0",
     "@aws-sdk/s3-request-presigner": "^3.717.0",
     "drizzle-orm": "^0.38.3"

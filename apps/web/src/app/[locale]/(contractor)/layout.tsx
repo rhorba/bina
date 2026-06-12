@@ -2,6 +2,7 @@ import { getSession } from "@/auth/index.js";
 import { Sidebar } from "@/components/app-shell/sidebar.js";
 import { TopBar } from "@/components/app-shell/top-bar.js";
 import { contractorProfiles, db } from "@bina/db";
+import { unreadCount } from "@bina/notifications";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
@@ -31,11 +32,13 @@ export default async function ContractorLayout({ children, params }: Props) {
     companyName = profile?.companyName;
   }
 
+  const unread = await unreadCount(db, session.userId);
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar locale={locale} userName={session.email} companyName={companyName} />
       <div className="flex-1 flex flex-col min-w-0">
-        <TopBar locale={locale} />
+        <TopBar locale={locale} unreadCount={unread} />
         <main className="flex-1 overflow-y-auto bg-[var(--color-bg)] p-6">{children}</main>
       </div>
     </div>

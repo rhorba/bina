@@ -234,10 +234,23 @@ CREATE POLICY project_references_delete ON project_references
     )
   );
 
--- 11. notifications — own user + admin
-DROP POLICY IF EXISTS notifications_all ON notifications;
-CREATE POLICY notifications_all ON notifications
-  FOR ALL USING (user_id = current_app_user_id() OR is_admin());
+-- 11. notifications — SELECT/UPDATE owner-scoped; INSERT open to the app.
+-- A contractor's server action (e.g. inviting a cotraitant) and the worker
+-- sweeps must be able to create a notification TARGETED AT another user. Reading
+-- and marking-read stay strictly owner-scoped, so a user still only ever sees
+-- their own notifications. Mirrors the audit_logs INSERT-open pattern below.
+DROP POLICY IF EXISTS notifications_all ON notifications; -- legacy FOR ALL policy
+DROP POLICY IF EXISTS notifications_select ON notifications;
+CREATE POLICY notifications_select ON notifications
+  FOR SELECT USING (user_id = current_app_user_id() OR is_admin());
+
+DROP POLICY IF EXISTS notifications_insert ON notifications;
+CREATE POLICY notifications_insert ON notifications
+  FOR INSERT WITH CHECK (true); -- system/server-generated, owner-readable only
+
+DROP POLICY IF EXISTS notifications_update ON notifications;
+CREATE POLICY notifications_update ON notifications
+  FOR UPDATE USING (user_id = current_app_user_id() OR is_admin());
 
 -- 12. audit_logs — admin read only; insert open to app (logged by triggers)
 DROP POLICY IF EXISTS audit_logs_select ON audit_logs;

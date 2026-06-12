@@ -1,3 +1,4 @@
+import { runDocExpirySweep } from "@bina/compliance";
 import { db } from "@bina/db";
 import { runDailyScrape } from "@bina/scraper";
 import { runAlertSweep } from "@bina/tenders";
@@ -38,10 +39,17 @@ async function registerWorkers() {
     }
   });
 
-  // doc.expiry.sweep — Sprint 5
+  // doc.expiry.sweep — daily 8am: refresh doc statuses + notify on 15-day-advance
+  // expiry (in-app + best-effort email). Bina rule #1: expiries are a primary signal.
   await boss.work(QUEUES.DOC_EXPIRY_SWEEP, async (jobs) => {
-    console.log("[doc.expiry.sweep] jobs received:", jobs.map((j) => j.id).join(", "));
-    // TODO Sprint 5: import and run expiry sweep
+    for (const job of jobs) {
+      console.log("[doc.expiry.sweep] job received:", job.id);
+      const result = await runDocExpirySweep(db);
+      console.log(
+        `[doc.expiry.sweep] done — ${result.contractorsProcessed} contractors, ` +
+          `${result.alerts} expiry alerts`
+      );
+    }
   });
 
   // groupement.archive — Sprint 4

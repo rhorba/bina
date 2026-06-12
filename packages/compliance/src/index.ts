@@ -8,3 +8,5 @@ export * from "./dossier.js";
 export * from "./storage.js";
 export * from "./query.js";
 export * from "./mutations.js";
+export * from "./labels.js";
+export * from "./sweep.js";

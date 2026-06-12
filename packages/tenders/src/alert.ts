@@ -1,4 +1,5 @@
-import { type DB, contractorProfiles, notifications, savedSearches, tenders } from "@bina/db";
+import { type DB, contractorProfiles, savedSearches, tenders, users } from "@bina/db";
+import { notify } from "@bina/notifications";
 import { and, eq, gt, inArray } from "drizzle-orm";
 import { type AlertFilters, type MatchableTender, tenderMatchesFilters } from "./match.js";
 
@@ -33,11 +34,13 @@ export async function runAlertSweep(db: DB, now: Date = new Date()): Promise<Ale
       id: savedSearches.id,
       contractorId: savedSearches.contractorId,
       userId: contractorProfiles.userId,
+      email: users.email,
       filters: savedSearches.filters,
       lastAlertAt: savedSearches.lastAlertAt,
     })
     .from(savedSearches)
     .innerJoin(contractorProfiles, eq(savedSearches.contractorId, contractorProfiles.id))
+    .innerJoin(users, eq(contractorProfiles.userId, users.id))
     .where(eq(savedSearches.alertEnabled, true));
 
   const matches: TenderMatchResult[] = [];
@@ -65,13 +68,18 @@ export async function runAlertSweep(db: DB, now: Date = new Date()): Promise<Ale
         matchedAt: now,
       });
 
-      await db.insert(notifications).values({
+      // In-app row + best-effort tender-alert email (email is a no-op when
+      // RESEND_API_KEY is unset). Copy is centralized in @bina/notifications.
+      await notify(db, {
         userId: search.userId,
-        type: "new_tender_match",
-        title: tender.title,
-        body: `${tender.maitreDOuvrage} — ${tender.region}`,
-        linkUrl: `/tenders/${tender.id}`,
-        metadata: { savedSearchId: search.id, tenderId: tender.id },
+        email: search.email,
+        kind: "new_tender_match",
+        data: {
+          tenderTitle: tender.title,
+          maitreDOuvrage: tender.maitreDOuvrage,
+          region: tender.region,
+          tenderId: tender.id,
+        },
       });
       notificationsCreated++;
     }

@@ -5,8 +5,11 @@
 
 import { Resend } from "resend";
 
-// Default sender — overridable via env. Must be a verified Resend domain in prod.
-const DEFAULT_FROM = process.env.RESEND_FROM ?? "Bina <alertes@bina.ma>";
+// Default sender — overridable via env (RESEND_FROM_EMAIL preferred; RESEND_FROM
+// kept for back-compat). Must be a verified Resend domain in prod (onboarding@
+// resend.dev works in test mode but only delivers to the account owner).
+const DEFAULT_FROM =
+  process.env.RESEND_FROM_EMAIL ?? process.env.RESEND_FROM ?? "Bina <alertes@bina.ma>";
 
 function resendConfig() {
   const apiKey = process.env.RESEND_API_KEY;

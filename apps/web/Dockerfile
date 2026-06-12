@@ -1,7 +1,10 @@
 FROM node:22-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# Pin pnpm 9 (lockfileVersion 9.0, engines pnpm>=9). pnpm 10's corepack default
+# hard-errors on dependency build scripts (ERR_PNPM_IGNORED_BUILDS), blocking
+# native deps argon2/sharp/esbuild; pnpm 9 builds them without an approval gate.
+RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 
 # Install dependencies only when needed
 FROM base AS deps

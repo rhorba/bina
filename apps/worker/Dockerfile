@@ -1,7 +1,9 @@
 FROM node:22-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# Pin pnpm 9 — pnpm 10 hard-errors on dependency build scripts, blocking native
+# deps (argon2/esbuild). pnpm 9 builds them without an approval gate.
+RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 
 FROM base AS deps
 WORKDIR /app

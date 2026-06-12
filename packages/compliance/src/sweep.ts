@@ -5,16 +5,11 @@
 // pure helpers it relies on (daysUntilExpiry / needsExpiryAlert / labels) ARE
 // unit-tested.
 
-import {
-  type DB,
-  complianceDocuments,
-  contractorProfiles,
-  users,
-} from "@bina/db";
+import { type DB, complianceDocuments, contractorProfiles, users } from "@bina/db";
 import { notify } from "@bina/notifications";
 import { eq } from "drizzle-orm";
-import { DOC_TYPE_LABELS_FR } from "./labels.js";
 import { daysUntilExpiry } from "./expiry.js";
+import { DOC_TYPE_LABELS_FR } from "./labels.js";
 import { refreshDocStatuses } from "./mutations.js";
 
 export type DocExpiryAlert = {

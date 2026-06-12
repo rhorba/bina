@@ -89,7 +89,8 @@ export function buildInAppContent(
       const g = data.groupementTitle ?? (ar ? "تجمع" : "Groupement");
       return {
         title: ar ? `تحديث التجمع: ${g}` : `Mise à jour du groupement: ${g}`,
-        body: data.message ?? (ar ? "تم تحديث حالة تجمعك" : "Le statut de votre groupement a changé"),
+        body:
+          data.message ?? (ar ? "تم تحديث حالة تجمعك" : "Le statut de votre groupement a changé"),
         linkUrl: data.groupementId ? `/groupements/${data.groupementId}` : undefined,
       };
     }

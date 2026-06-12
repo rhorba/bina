@@ -146,9 +146,7 @@ describe("buildInAppContent — doc_expiry", () => {
     expect(
       buildInAppContent("doc_expiry", { docTypeLabel: "شهادة", docExpiresInDays: 2 }, "ar").body
     ).toContain("شهادة");
-    expect(buildInAppContent("doc_expiry", { docExpiresInDays: 0 }, "ar").body).toContain(
-      "منتهية"
-    );
+    expect(buildInAppContent("doc_expiry", { docExpiresInDays: 0 }, "ar").body).toContain("منتهية");
   });
 });
 

@@ -1,7 +1,7 @@
 import { runDocExpirySweep } from "@bina/compliance";
 import { db } from "@bina/db";
 import { runDailyScrape } from "@bina/scraper";
-import { runAlertSweep } from "@bina/tenders";
+import { runAlertSweep, runDeadlineReminderSweep } from "@bina/tenders";
 import PgBoss from "pg-boss";
 import { CRON_SCHEDULES, QUEUES } from "./queues.js";
 
@@ -35,6 +35,18 @@ async function registerWorkers() {
       console.log(
         `[alert.sweep] done — ${result.searchesProcessed} searches, ` +
           `${result.newMatches} new matches, ${result.notificationsCreated} notifications`
+      );
+    }
+  });
+
+  // deadline.reminder — daily 7:30am: remind on tracked tenders at 7/3/1 days left
+  await boss.work(QUEUES.DEADLINE_REMINDER, async (jobs) => {
+    for (const job of jobs) {
+      console.log("[deadline.reminder] job received:", job.id);
+      const result = await runDeadlineReminderSweep(db);
+      console.log(
+        `[deadline.reminder] done — ${result.trackedProcessed} tracked, ` +
+          `${result.remindersSent} reminders`
       );
     }
   });

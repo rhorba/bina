@@ -20,6 +20,8 @@ export default defineConfig({
         "src/alert.ts",
         "src/saved-searches.ts",
         "src/tracking.ts",
+        // Sprint 6 deadline-reminder sweep is DB glue; deadline.ts (pure) is tested.
+        "src/deadline-sweep.ts",
       ],
       // Sprint Exit Gate (.claude/CLAUDE.md): ≥80% — never lower, raise coverage instead.
       thresholds: { lines: 80, statements: 80, functions: 80, branches: 80 },

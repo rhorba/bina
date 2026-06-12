@@ -14,6 +14,8 @@ export const users = pgTable("users", {
   region: text("region"),
   isActive: boolean("is_active").notNull().default(true),
   emailVerified: boolean("email_verified").notNull().default(false),
+  // Last successful login — powers the admin "active users (30d)" KPI (Sprint 7).
+  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });

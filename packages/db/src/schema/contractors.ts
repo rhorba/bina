@@ -55,6 +55,9 @@ export const contractorProfiles = pgTable("contractor_profiles", {
   maxContractValueCentimes: bigint("max_contract_value_centimes", { mode: "number" }), // MAD centimes
   fnbtpCategory: fnbtpCategoryEnum("fnbtp_category"),
   fnbtpNumber: text("fnbtp_number"),
+  // Admin FNBTP verification (Sprint 7). NULL = pending in the admin queue;
+  // set when an admin confirms the declared FNBTP qualification.
+  fnbtpVerifiedAt: timestamp("fnbtp_verified_at", { withTimezone: true }),
   avgRating: decimal("avg_rating", { precision: 3, scale: 2 }).notNull().default("0"),
   reviewCount: integer("review_count").notNull().default(0),
   completedTenders: integer("completed_tenders").notNull().default(0),

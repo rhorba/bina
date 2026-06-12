@@ -36,6 +36,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const valid = await verifyPassword(password, user.passwordHash);
         if (!valid) return null;
 
+        // Track last login for the admin "active users (30d)" KPI.
+        await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id));
+
         const profile = await db.query.contractorProfiles.findFirst({
           where: eq(contractorProfiles.userId, user.id),
         });

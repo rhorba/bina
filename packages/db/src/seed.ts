@@ -34,6 +34,7 @@ import {
 const MAD = (mad: number) => Math.round(mad * 100);
 /** Date offset from now in days (negative = past). */
 const days = (n: number) => new Date(Date.now() + n * 86_400_000);
+const daysAgo = (n: number) => days(-n);
 
 const PORTAL_URL =
   "https://www.marchespublics.gov.ma/index.php?page=entreprise.EntrepriseDetailsConsultation&refConsultation=";
@@ -85,6 +86,7 @@ async function main() {
         city: "Casablanca",
         region: "Casablanca-Settat",
         emailVerified: true,
+        lastLoginAt: daysAgo(1),
       },
       {
         email: "samira.elec@demo.bina.ma",
@@ -95,6 +97,7 @@ async function main() {
         city: "Rabat",
         region: "Rabat-Salé-Kénitra",
         emailVerified: true,
+        lastLoginAt: daysAgo(3),
       },
       {
         email: "youssef.gc@demo.bina.ma",
@@ -105,6 +108,7 @@ async function main() {
         city: "Tanger",
         region: "Tanger-Tétouan-Al Hoceïma",
         emailVerified: true,
+        lastLoginAt: daysAgo(10),
       },
       {
         email: "khadija.finitions@demo.bina.ma",
@@ -115,6 +119,7 @@ async function main() {
         city: "Marrakech",
         region: "Marrakech-Safi",
         emailVerified: true,
+        lastLoginAt: daysAgo(28),
       },
       {
         email: "omar.archi@demo.bina.ma",
@@ -125,6 +130,7 @@ async function main() {
         city: "Casablanca",
         region: "Casablanca-Settat",
         emailVerified: true,
+        lastLoginAt: daysAgo(2),
       },
       {
         email: "nadia.etudes@demo.bina.ma",
@@ -162,6 +168,7 @@ async function main() {
         passwordHash: adminHash,
         role: "admin" as const,
         emailVerified: true,
+        lastLoginAt: daysAgo(0),
       },
     ])
     .returning({ id: users.id, email: users.email });

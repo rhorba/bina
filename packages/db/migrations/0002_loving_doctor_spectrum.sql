@@ -1,0 +1,1 @@
+ALTER TABLE "contractor_profiles" ADD COLUMN "fnbtp_verified_at" timestamp with time zone;

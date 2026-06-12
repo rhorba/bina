@@ -372,16 +372,107 @@
     "currency": "درهم"
   },
   "admin": {
-    "title": "الإدارة",
-    "tenders": "طلبات العروض",
-    "scraper": "حالة المُجمِّع",
-    "users": "المستخدمون",
-    "groupements": "التجمعات",
-    "kpis": "مؤشرات المنصة",
-    "scraperHealth": {
-      "ok": "المُجمِّع يعمل بشكل سليم",
-      "warning": "تحذير — المُجمِّع",
-      "error": "خطأ في المُجمِّع"
+    "title": "إدارة بناء",
+    "subtitle": "مؤشرات المنصة · حالة المُجمِّع · الإشراف",
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "tenders": "طلبات العروض",
+      "users": "المستخدمون",
+      "groupements": "التجمعات",
+      "scraper": "المُجمِّع",
+      "backToApp": "العودة إلى التطبيق"
+    },
+    "kpi": {
+      "tendersIndexed": "طلبات العروض المفهرسة",
+      "activeUsers30d": "المستخدمون النشطون (30 يومًا)",
+      "activeGroupements": "التجمعات النشطة",
+      "alertsSent7d": "التنبيهات المُرسلة (7 أيام)",
+      "verificationQueue": "تحققات FNBTP المعلّقة"
+    },
+    "scraperTitle": "مُجمِّع marchespublics.gov.ma",
+    "scraperSubtitle": "حالة المُجمِّع، آخر عمليات التشغيل واستيراد CSV الاحتياطي.",
+    "scraperStatus": {
+      "never": "لم تُسجَّل أي عملية تشغيل بعد.",
+      "running": "هناك عملية تشغيل جارية.",
+      "healthy": "نجحت آخر عملية مؤخرًا — المُجمِّع يعمل بشكل سليم.",
+      "degraded": "انتهت آخر عملية مع أخطاء في بعض طلبات العروض.",
+      "stale": "آخر عملية ناجحة مرّ عليها أكثر من 24 ساعة — تم تفويت دورة.",
+      "failed": "فشلت آخر عملية تشغيل. تحقّق من البوابة أو استورد ملف CSV."
+    },
+    "scraperHealthLabel": {
+      "never": "لم يُشغَّل قط",
+      "running": "جارٍ",
+      "healthy": "يعمل",
+      "degraded": "متدهور",
+      "stale": "قديم",
+      "failed": "خطأ"
+    },
+    "runs": {
+      "title": "آخر عمليات التشغيل",
+      "startedAt": "بدأت في",
+      "source": "المصدر",
+      "status": "الحالة",
+      "seen": "المعاينة",
+      "inserted": "المُضافة",
+      "updated": "المُحدَّثة",
+      "errors": "الأخطاء",
+      "empty": "لا توجد عمليات تشغيل بعد.",
+      "sources": {
+        "scraper": "المُجمِّع",
+        "csv_import": "استيراد CSV"
+      },
+      "statuses": {
+        "running": "جارٍ",
+        "success": "ناجح",
+        "partial": "جزئي",
+        "failed": "فاشل"
+      }
+    },
+    "csv": {
+      "title": "استيراد CSV الاحتياطي",
+      "subtitle": "إذا تغيّرت بنية البوابة، استورد ملف CSV لطلبات العروض. نفس معالجة المُجمِّع.",
+      "label": "ملف CSV (تصدير marchespublics)",
+      "hint": "التنسيق المتوقّع: الأعمدة externalId، title، maitreDOuvrage، region، type، submissionDeadline…",
+      "import": "استيراد ملف CSV",
+      "importing": "جارٍ الاستيراد…",
+      "success": "اكتمل الاستيراد: {inserted} مُضافة، {updated} مُحدَّثة، {errors} أخطاء.",
+      "errors": {
+        "forbidden": "تم رفض الوصول — للمسؤولين فقط.",
+        "noFile": "يرجى اختيار ملف CSV.",
+        "tooLarge": "الملف كبير جدًا (الحد الأقصى 5 ميغابايت).",
+        "unknown": "حدث خطأ أثناء الاستيراد."
+      }
+    },
+    "verify": {
+      "title": "قائمة التحقق من FNBTP",
+      "subtitle": "الشركات التي صرّحت بتأهيل FNBTP في انتظار التحقق.",
+      "empty": "لا توجد تحققات معلّقة",
+      "emptyHint": "تم التحقق من جميع التأهيلات المُصرَّح بها.",
+      "confirm": "تحقّق",
+      "noCategory": "الفئة غير محدّدة"
+    },
+    "groupementsModeration": {
+      "title": "الإشراف على التجمعات",
+      "subtitle": "جميع تجمعات المنصة، من الأحدث إلى الأقدم.",
+      "name": "التجمع",
+      "tender": "طلب العروض",
+      "status": "الحالة",
+      "members": "الأعضاء",
+      "createdAt": "أُنشئ في",
+      "empty": "لا توجد تجمعات بعد."
+    },
+    "tendersAdmin": {
+      "title": "طلبات العروض",
+      "count": "{n} طلب عروض مفهرس",
+      "title2": "العنوان",
+      "region": "الجهة",
+      "budget": "المبلغ التقديري",
+      "deadline": "آخر أجل",
+      "status": "الحالة",
+      "empty": "لا توجد طلبات عروض بعد.",
+      "prev": "السابق",
+      "next": "التالي",
+      "pageOf": "الصفحة {page} / {totalPages}"
     }
   }
 }

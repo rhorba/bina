@@ -372,16 +372,107 @@
     "currency": "MAD"
   },
   "admin": {
-    "title": "Administration",
-    "tenders": "Appels d'offres",
-    "scraper": "État du scraper",
-    "users": "Utilisateurs",
-    "groupements": "Groupements",
-    "kpis": "KPIs plateforme",
-    "scraperHealth": {
-      "ok": "Scraper opérationnel",
-      "warning": "Scraper — avertissement",
-      "error": "Scraper en erreur"
+    "title": "Administration Bina",
+    "subtitle": "KPIs plateforme · Santé du scraper · Modération",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "tenders": "Appels d'offres",
+      "users": "Utilisateurs",
+      "groupements": "Groupements",
+      "scraper": "Scraper",
+      "backToApp": "Retour à l'app"
+    },
+    "kpi": {
+      "tendersIndexed": "Appels d'offres indexés",
+      "activeUsers30d": "Utilisateurs actifs (30 j)",
+      "activeGroupements": "Groupements actifs",
+      "alertsSent7d": "Alertes envoyées (7 j)",
+      "verificationQueue": "Vérifications FNBTP en attente"
+    },
+    "scraperTitle": "Scraper marchespublics.gov.ma",
+    "scraperSubtitle": "Santé du scraper, derniers passages et import CSV de secours.",
+    "scraperStatus": {
+      "never": "Aucun passage enregistré pour le moment.",
+      "running": "Un passage est en cours d'exécution.",
+      "healthy": "Dernier passage réussi récemment — pipeline opérationnel.",
+      "degraded": "Dernier passage terminé avec des erreurs sur certains appels d'offres.",
+      "stale": "Le dernier passage réussi remonte à plus de 24 h — cycle manqué.",
+      "failed": "Le dernier passage a échoué. Vérifiez le portail ou importez un CSV."
+    },
+    "scraperHealthLabel": {
+      "never": "Jamais exécuté",
+      "running": "En cours",
+      "healthy": "Opérationnel",
+      "degraded": "Dégradé",
+      "stale": "Obsolète",
+      "failed": "En erreur"
+    },
+    "runs": {
+      "title": "Derniers passages",
+      "startedAt": "Démarré le",
+      "source": "Source",
+      "status": "État",
+      "seen": "Vus",
+      "inserted": "Ajoutés",
+      "updated": "Mis à jour",
+      "errors": "Erreurs",
+      "empty": "Aucun passage pour le moment.",
+      "sources": {
+        "scraper": "Scraper",
+        "csv_import": "Import CSV"
+      },
+      "statuses": {
+        "running": "En cours",
+        "success": "Réussi",
+        "partial": "Partiel",
+        "failed": "Échoué"
+      }
+    },
+    "csv": {
+      "title": "Import CSV de secours",
+      "subtitle": "Si la structure du portail change, importez un export CSV des appels d'offres. Même traitement que le scraper.",
+      "label": "Fichier CSV (export marchespublics)",
+      "hint": "Format attendu : colonnes externalId, title, maitreDOuvrage, region, type, submissionDeadline…",
+      "import": "Importer le CSV",
+      "importing": "Import en cours…",
+      "success": "Import terminé : {inserted} ajoutés, {updated} mis à jour, {errors} erreurs.",
+      "errors": {
+        "forbidden": "Accès refusé — administrateurs uniquement.",
+        "noFile": "Veuillez sélectionner un fichier CSV.",
+        "tooLarge": "Fichier trop volumineux (max. 5 Mo).",
+        "unknown": "Une erreur est survenue pendant l'import."
+      }
+    },
+    "verify": {
+      "title": "File de vérification FNBTP",
+      "subtitle": "Entreprises ayant déclaré une qualification FNBTP en attente de vérification.",
+      "empty": "Aucune vérification en attente",
+      "emptyHint": "Toutes les qualifications déclarées ont été vérifiées.",
+      "confirm": "Vérifier",
+      "noCategory": "Catégorie non précisée"
+    },
+    "groupementsModeration": {
+      "title": "Modération des groupements",
+      "subtitle": "Tous les groupements de la plateforme, du plus récent au plus ancien.",
+      "name": "Groupement",
+      "tender": "Appel d'offres",
+      "status": "État",
+      "members": "Membres",
+      "createdAt": "Créé le",
+      "empty": "Aucun groupement pour le moment."
+    },
+    "tendersAdmin": {
+      "title": "Appels d'offres",
+      "count": "{n} appels d'offres indexés",
+      "title2": "Intitulé",
+      "region": "Région",
+      "budget": "Montant estimé",
+      "deadline": "Date limite",
+      "status": "État",
+      "empty": "Aucun appel d'offres pour le moment.",
+      "prev": "Précédent",
+      "next": "Suivant",
+      "pageOf": "Page {page} / {totalPages}"
     }
   }
 }

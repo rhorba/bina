@@ -20,6 +20,15 @@ boss.on("error", (err) => {
   console.error("[pg-boss] error:", err);
 });
 
+// pg-boss v10 requires each queue to exist (via createQueue) before .work() or
+// .schedule() can reference it — unlike earlier versions, neither call creates
+// the queue implicitly. Idempotent: safe to call on every worker startup.
+async function ensureQueuesExist() {
+  for (const queue of Object.values(QUEUES)) {
+    await boss.createQueue(queue);
+  }
+}
+
 async function registerWorkers() {
   // scraper.daily — nightly scrape + status refresh (CSV fallback is manual, admin-side)
   await boss.work(QUEUES.SCRAPER_DAILY, async (jobs) => {
@@ -94,6 +103,7 @@ async function main() {
   await boss.start();
   console.log("[pg-boss] started");
 
+  await ensureQueuesExist();
   await registerWorkers();
   await registerCronJobs();
 

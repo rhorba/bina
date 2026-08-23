@@ -1,14 +1,23 @@
 import { signInSchema } from "@bina/core";
 import type { NextAuthConfig } from "next-auth";
+import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
+// Google is optional (DEPLOY.md) — email/password works standalone. Registering
+// it with empty-string credentials still wires it into every auth() call
+// (including middleware, on every request), which is needless overhead and risk
+// when it's never going to be used. Only include it when real credentials exist.
+const googleClientId = process.env["AUTH_GOOGLE_ID"];
+const googleClientSecret = process.env["AUTH_GOOGLE_SECRET"];
+const providers: Provider[] = [];
+if (googleClientId && googleClientSecret) {
+  providers.push(Google({ clientId: googleClientId, clientSecret: googleClientSecret }));
+}
+
 export const authConfig: NextAuthConfig = {
   providers: [
-    Google({
-      clientId: process.env["AUTH_GOOGLE_ID"] ?? "",
-      clientSecret: process.env["AUTH_GOOGLE_SECRET"] ?? "",
-    }),
+    ...providers,
     Credentials({
       name: "credentials",
       credentials: {

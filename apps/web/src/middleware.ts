@@ -1,13 +1,6 @@
-import { authConfig } from "@/auth/config.js";
 import { routing } from "@/i18n/routing.js";
-import NextAuth from "next-auth";
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
-
-// Edge-safe NextAuth instance: authConfig has no DB or argon2 imports.
-// The full instance (with Credentials authorize) lives in @/auth/index.ts
-// and must never be imported from middleware.
-const { auth } = NextAuth(authConfig);
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -15,9 +8,12 @@ const PROTECTED_PATTERNS = [/^\/[a-z]{2}\/(dashboard|groupements|dossier|profil|
 
 const ADMIN_PATTERNS = [/^\/[a-z]{2}\/admin(\/.*)?$/];
 
-export default auth(async function middleware(req: NextRequest) {
+// TEMP DIAGNOSTIC (Sprint 8 web-hang investigation): auth() wrapper bypassed to
+// isolate whether the hang is inside NextAuth's edge middleware or next-intl.
+// Revert to `export default auth(async function middleware(...` once resolved.
+async function middlewareImpl(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const session = (req as { auth?: { user?: { role?: string } } }).auth;
+  const session = undefined as { user?: { role?: string } } | undefined;
 
   if (ADMIN_PATTERNS.some((p) => p.test(pathname))) {
     if (!session?.user || session.user.role !== "admin") {
@@ -37,7 +33,9 @@ export default auth(async function middleware(req: NextRequest) {
   }
 
   return intlMiddleware(req);
-});
+}
+
+export default middlewareImpl;
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt).*)"],

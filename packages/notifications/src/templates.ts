@@ -31,7 +31,7 @@ export type NotificationData = {
   title?: string;
 };
 
-export type InAppContent = { title: string; body: string; linkUrl?: string };
+export type InAppContent = { title: string; body: string; linkUrl?: string | undefined };
 export type EmailContent = { subject: string; html: string };
 
 const APP_URL = (process.env.NEXT_PUBLIC_APP_URL ?? "https://bina.ma").replace(/\/$/, "");

@@ -12,9 +12,9 @@ import type {
 export type RawTenderLot = {
   lotNumber: number;
   lotTitle: string;
-  estimatedBudgetCentimes?: Money;
+  estimatedBudgetCentimes?: Money | undefined;
   requiredSpecialties: TradeSpecialty[];
-  description?: string;
+  description?: string | undefined;
 };
 
 export type RawTender = {
@@ -24,15 +24,15 @@ export type RawTender = {
   maitreDOuvrageType: MaitreDOuvrageType;
   type: TenderType;
   region: string;
-  estimatedBudgetMinCentimes?: Money;
-  estimatedBudgetMaxCentimes?: Money;
+  estimatedBudgetMinCentimes?: Money | undefined;
+  estimatedBudgetMaxCentimes?: Money | undefined;
   publishedAt: Date;
   submissionDeadline: Date;
-  openingDate?: Date;
+  openingDate?: Date | undefined;
   requiredSpecialties: TradeSpecialty[];
-  requiredFnbtpCategory?: FNBTPCategory;
-  description?: string;
-  dossierUrl?: string;
+  requiredFnbtpCategory?: FNBTPCategory | undefined;
+  description?: string | undefined;
+  dossierUrl?: string | undefined;
   lots: RawTenderLot[];
 };
 
@@ -41,13 +41,13 @@ export type ScrapedTenderFields = {
   externalId: string;
   title: string;
   maitreDOuvrage: string;
-  procedureType?: string; // e.g. "Appel d'offres ouvert — Travaux"
-  region?: string;
-  estimatedBudget?: string; // e.g. "2 500 000,00 MAD"
+  procedureType?: string | undefined; // e.g. "Appel d'offres ouvert — Travaux"
+  region?: string | undefined;
+  estimatedBudget?: string | undefined; // e.g. "2 500 000,00 MAD"
   publishedAt: string; // "15/06/2026" or "15 juin 2026"
   submissionDeadline: string;
-  openingDate?: string;
-  description?: string;
-  dossierUrl?: string;
-  lots?: { lotNumber: number; lotTitle: string; estimatedBudget?: string }[];
+  openingDate?: string | undefined;
+  description?: string | undefined;
+  dossierUrl?: string | undefined;
+  lots?: { lotNumber: number; lotTitle: string; estimatedBudget?: string | undefined }[];
 };

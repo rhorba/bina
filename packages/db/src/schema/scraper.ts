@@ -20,6 +20,8 @@ export const scraperRuns = pgTable("scraper_runs", {
   tendersInserted: integer("tenders_inserted").notNull().default(0),
   tendersUpdated: integer("tenders_updated").notNull().default(0),
   errorCount: integer("error_count").notNull().default(0),
-  errorDetails: jsonb("error_details").$type<{ externalId?: string; message: string }[]>(),
+  errorDetails: jsonb("error_details").$type<
+    { externalId?: string | undefined; message: string }[]
+  >(),
   triggeredBy: text("triggered_by"), // user id for CSV imports; null for cron
 });

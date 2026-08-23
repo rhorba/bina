@@ -52,4 +52,4 @@ RUN npx --yes playwright@1.49.1 install --with-deps chromium \
     && chmod -R o+rX /ms-playwright
 
 USER worker
-CMD ["node_modules/.bin/tsx", "apps/worker/src/index.ts"]
+CMD ["apps/worker/node_modules/.bin/tsx", "apps/worker/src/index.ts"]

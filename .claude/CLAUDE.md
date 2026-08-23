@@ -40,6 +40,10 @@ specialist's rules inline is NOT sufficient, the Skill MUST actually be called.*
   - `devops-devsecops` — Docker, CI, secrets
   - `deployment` — Vercel + Docker verify
   - `tech-lead` — architecture, ADRs, stack enforcement
+  - `software-architect` / `system-designer` — cross-package architecture, sprint-level system design
+  - `design-loop` — independent critic pass before shipping any high-stakes UI/graphic (landing page, pitch deck, dashboard hero)
+  - `content-marketer` / `copywriter` / `digital-marketer` — launch content, GTM, campaign copy (FR/AR)
+  - `creative-intelligence` — campaign/UX ideation, grounded in root `CLAUDE.md` §1 data
   - `orchestrator` — session start, routing across multiple specialists
 - A task spanning multiple domains invokes each relevant skill (e.g. a new page touching the
   DB invokes `dba`, then `backend-dev`, then `frontend-dev`).
@@ -79,6 +83,8 @@ specialist's rules inline is NOT sufficient, the Skill MUST actually be called.*
 | Alert sweep | → Tender Engine + Backend |
 | All sprint tests PASS | → Deployment check |
 | Sprint all-green | → Project Monitor: snapshot |
+| Any high-stakes UI/graphic ready to ship (landing page, pitch deck, dashboard hero) | → Design Loop (before ship, not after) |
+| Launch/GTM content requested | → Content Marketer / Copywriter / Digital Marketer + Content Editor (FR/AR QA) |
 
 ---
 
@@ -103,7 +109,14 @@ specialist's rules inline is NOT sufficient, the Skill MUST actually be called.*
 | Deployment | Vercel + Docker verify |
 | UX Designer | Wireframes, contractor UX, mobile-friendly |
 | UI Designer | Steel blue/orange tokens, data tables, deadline chips |
+| Design Loop | One-shot design quality — independent fresh-context critics before shipping any high-stakes UI/graphic |
+| Software Architect | Cross-package architecture decisions (`apps/web` + `packages/*`) |
+| System Designer | Sprint-level system design (alert sweep, doc-expiry sweep, groupement state machine) |
 | Content Editor | FR/AR, BTP vocabulary, procurement terminology |
+| Content Marketer | Launch content, blog/landing copy, FR/AR |
+| Copywriter | Marketing/product copy, positioning lines, FR/AR |
+| Digital Marketer | GTM channels (WhatsApp groups, FNBTP, trade press), organic acquisition |
+| Creative Intelligence | Campaign/UX ideation grounded in §1 market data |
 | Project Monitor | Logs, KPIs, snapshots |
 
 ---

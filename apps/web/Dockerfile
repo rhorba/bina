@@ -9,14 +9,14 @@ RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
-COPY apps/web/package.json ./apps/web/
-COPY packages/core/package.json ./packages/core/
-COPY packages/db/package.json ./packages/db/
-COPY packages/compliance/package.json ./packages/compliance/
-COPY packages/groupement/package.json ./packages/groupement/
-COPY packages/notifications/package.json ./packages/notifications/
-COPY packages/tenders/package.json ./packages/tenders/
+# Full repo, not just this app's package.json: pnpm-workspace.yaml globs
+# apps/* and packages/*, so a partial checkout (only apps/web present)
+# makes pnpm's workspace discovery mismatch what pnpm-lock.yaml expects —
+# --frozen-lockfile then silently fails to link workspace packages into
+# node_modules instead of erroring, breaking `Cannot find module '@bina/...'`
+# at build time. Costs some Docker layer-cache granularity; correctness
+# over that.
+COPY . .
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build
@@ -24,9 +24,7 @@ FROM base AS builder
 WORKDIR /app
 # standalone output is gated behind this flag (see next.config.ts)
 ENV BUILD_STANDALONE=1
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
-COPY . .
+COPY --from=deps /app ./
 RUN pnpm --filter @bina/core build 2>/dev/null || true
 RUN pnpm --filter @bina/db build 2>/dev/null || true
 RUN pnpm --filter web build

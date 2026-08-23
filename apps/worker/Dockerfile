@@ -7,20 +7,19 @@ RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 
 FROM base AS deps
 WORKDIR /app
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
-COPY apps/worker/package.json ./apps/worker/
-COPY packages/core/package.json ./packages/core/
-COPY packages/db/package.json ./packages/db/
-COPY packages/compliance/package.json ./packages/compliance/
-COPY packages/notifications/package.json ./packages/notifications/
-COPY packages/scraper/package.json ./packages/scraper/
-COPY packages/tenders/package.json ./packages/tenders/
+# Full repo, not just this app's package.json: pnpm-workspace.yaml globs
+# apps/* and packages/*, so a partial checkout (only apps/worker present)
+# makes pnpm's workspace discovery mismatch what pnpm-lock.yaml expects —
+# --frozen-lockfile then silently fails to link workspace packages into
+# node_modules instead of erroring, breaking `Cannot find module '@bina/...'`
+# at build time. Costs some Docker layer-cache granularity; correctness
+# over that.
+COPY . .
 RUN pnpm install --frozen-lockfile --prod=false
 
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --from=deps /app ./
 RUN pnpm --filter @bina/core build 2>/dev/null || true
 RUN pnpm --filter @bina/db build 2>/dev/null || true
 RUN pnpm --filter @bina/worker build

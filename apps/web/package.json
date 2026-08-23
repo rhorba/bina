@@ -19,7 +19,7 @@
     "@bina/notifications": "workspace:*",
     "@bina/tenders": "workspace:*",
     "drizzle-orm": "^0.38.3",
-    "next": "15.1.3",
+    "next": "15.1.11",
     "next-auth": "5.0.0-beta.25",
     "next-intl": "^3.26.3",
     "react": "^19.0.0",

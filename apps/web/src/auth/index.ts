@@ -3,17 +3,27 @@ import { signInSchema } from "@bina/core";
 import { contractorProfiles, db, users } from "@bina/db";
 import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
+import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { authConfig } from "./config.js";
 
+// Same conditional-registration rule as auth/config.ts: only wire up Google when
+// real credentials exist. An unconditionally-registered Google() with empty-string
+// credentials previously caused every auth()-wrapped middleware request to hang
+// (see commit 36dfe7c / 6541c30) — this full DB-backed instance had the identical
+// pattern, unfixed, and every signIn()/getSession() call here went through it.
+const googleClientId = process.env["AUTH_GOOGLE_ID"];
+const googleClientSecret = process.env["AUTH_GOOGLE_SECRET"];
+const oauthProviders: Provider[] = [];
+if (googleClientId && googleClientSecret) {
+  oauthProviders.push(Google({ clientId: googleClientId, clientSecret: googleClientSecret }));
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
-    Google({
-      clientId: process.env["AUTH_GOOGLE_ID"] ?? "",
-      clientSecret: process.env["AUTH_GOOGLE_SECRET"] ?? "",
-    }),
+    ...oauthProviders,
     Credentials({
       name: "credentials",
       credentials: {

@@ -23,7 +23,11 @@ export default async function SignUpPage({ params }: Props) {
           <h1 className="text-xl font-semibold text-[var(--color-foreground)] mb-6">
             Créer un compte
           </h1>
-          <SignUpForm />
+          <SignUpForm
+            googleEnabled={Boolean(
+              process.env["AUTH_GOOGLE_ID"] && process.env["AUTH_GOOGLE_SECRET"]
+            )}
+          />
         </div>
 
         <p className="text-center text-sm text-[var(--color-muted)] mt-6">

@@ -25,7 +25,11 @@ export default async function LoginPage({ params }: Props) {
           <h1 className="text-xl font-semibold text-[var(--color-foreground)] mb-6">
             Se connecter
           </h1>
-          <LoginForm />
+          <LoginForm
+            googleEnabled={Boolean(
+              process.env["AUTH_GOOGLE_ID"] && process.env["AUTH_GOOGLE_SECRET"]
+            )}
+          />
         </div>
 
         <p className="text-center text-sm text-[var(--color-muted)] mt-6">

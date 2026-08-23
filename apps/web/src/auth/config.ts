@@ -76,4 +76,13 @@ export const authConfig: NextAuthConfig = {
   },
   session: { strategy: "jwt" },
   trustHost: true,
+  // Railway terminates TLS at its edge and proxies to the container over
+  // plain HTTP — Auth.js's own protocol auto-detection for the signIn()
+  // server-action path doesn't reliably see that as secure, so it can write
+  // the session cookie under the unprefixed name while middleware's
+  // getToken() (which does see https correctly) looks for the
+  // __Secure-prefixed name. Forcing this explicitly makes both sides agree,
+  // regardless of what either side's auto-detection concludes. The public
+  // URL is always HTTPS (Railway subdomain, no non-TLS entry point).
+  useSecureCookies: true,
 };

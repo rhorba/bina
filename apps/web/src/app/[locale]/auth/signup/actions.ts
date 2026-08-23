@@ -5,7 +5,7 @@ import { signUpSchema } from "@bina/core";
 import { contractorProfiles, db, users, withUserContext } from "@bina/db";
 import { eq } from "drizzle-orm";
 
-export type SignUpState = { error: string } | { success: true } | null;
+export type SignUpState = { error: string } | null;
 
 export async function signUpAction(_prev: SignUpState, formData: FormData): Promise<SignUpState> {
   const parsed = signUpSchema.safeParse({
@@ -60,9 +60,12 @@ export async function signUpAction(_prev: SignUpState, formData: FormData): Prom
     });
   });
 
-  // redirect: false + a client-side hard navigation (see _form.tsx) instead of
-  // signIn's built-in redirectTo — see login/actions.ts for why.
-  await signIn("credentials", { email, password, redirect: false });
+  // throws NEXT_REDIRECT — must not be caught
+  await signIn("credentials", {
+    email,
+    password,
+    redirectTo: "/fr/dashboard",
+  });
 
-  return { success: true };
+  return null;
 }

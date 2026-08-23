@@ -1,20 +1,12 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { loginAction } from "./actions";
 
 type Props = { googleEnabled: boolean };
 
 export function LoginForm({ googleEnabled }: Props) {
   const [state, action, isPending] = useActionState(loginAction, null);
-
-  useEffect(() => {
-    if (state && "success" in state) {
-      // Hard navigation, not the router: guarantees this request carries the
-      // session cookie signIn() just set (see actions.ts for why).
-      window.location.href = "/fr/dashboard";
-    }
-  }, [state]);
 
   return (
     <div className="space-y-5">
@@ -55,7 +47,7 @@ export function LoginForm({ googleEnabled }: Props) {
           />
         </div>
 
-        {state && "error" in state && (
+        {state?.error && (
           <p className="text-sm text-[var(--color-urgent)] bg-[var(--color-urgent)]/8 px-3 py-2 rounded-lg">
             {state.error}
           </p>

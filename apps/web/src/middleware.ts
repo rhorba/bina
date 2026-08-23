@@ -22,7 +22,12 @@ async function middlewareImpl(req: NextRequest) {
   const needsSession =
     ADMIN_PATTERNS.some((p) => p.test(pathname)) ||
     PROTECTED_PATTERNS.some((p) => p.test(pathname));
-  const token = needsSession ? await getToken({ req, secret: process.env["AUTH_SECRET"] }) : null;
+  // secureCookie forced true to match authConfig's useSecureCookies (see
+  // auth/config.ts) — both sides must agree on the cookie name regardless of
+  // either's own https auto-detection.
+  const token = needsSession
+    ? await getToken({ req, secret: process.env["AUTH_SECRET"], secureCookie: true })
+    : null;
   const session = token ? { user: { role: token["role"] as string | undefined } } : undefined;
 
   if (ADMIN_PATTERNS.some((p) => p.test(pathname))) {

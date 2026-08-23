@@ -22,6 +22,13 @@ WORKDIR /app
 COPY --from=deps /app ./
 RUN pnpm --filter @bina/core build 2>/dev/null || true
 RUN pnpm --filter @bina/db build 2>/dev/null || true
+# Type-check gate only — the runtime below runs from source via tsx (see CMD),
+# not this dist/ output. @bina/compliance, notifications, scraper, and tenders
+# are consumed via their raw "main": "./src/index.ts" (no build step of their
+# own), so a plain `node dist/index.js` can never resolve them at runtime —
+# their node_modules symlinks point at packages/*/src, which only tsx (or an
+# equivalent TS-aware loader) can execute. tsc still runs here to catch type
+# errors at build time.
 RUN pnpm --filter @bina/worker build
 
 # Runtime: Debian slim, not alpine — Playwright's bundled Chromium needs glibc (musl on
@@ -35,12 +42,14 @@ ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 worker
 
-COPY --from=builder /app/apps/worker/dist ./apps/worker/dist
-COPY --from=builder /app/node_modules ./node_modules
+# Full tree, not just dist/+node_modules: the workspace packages worker depends
+# on run from source (see note above), so packages/*/src must be present for
+# their node_modules symlinks to resolve.
+COPY --from=builder /app ./
 
 # Must run as root (apt-get needs it) — before dropping to the unprivileged `worker` user.
 RUN npx --yes playwright@1.49.1 install --with-deps chromium \
     && chmod -R o+rX /ms-playwright
 
 USER worker
-CMD ["node", "apps/worker/dist/index.js"]
+CMD ["node_modules/.bin/tsx", "apps/worker/src/index.ts"]

@@ -13,6 +13,10 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/core/package.json ./packages/core/
 COPY packages/db/package.json ./packages/db/
+COPY packages/compliance/package.json ./packages/compliance/
+COPY packages/groupement/package.json ./packages/groupement/
+COPY packages/notifications/package.json ./packages/notifications/
+COPY packages/tenders/package.json ./packages/tenders/
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build

@@ -69,6 +69,7 @@ specialist's rules inline is NOT sufficient, the Skill MUST actually be called.*
 | **Sprint 5** | Compliance vault + document expiry + dossier builder |
 | **Sprint 6** | Notifications + email + i18n FR/AR + RTL + a11y |
 | **Sprint 7** | Admin dashboard + security hardening + deploy → v0.1 ship |
+| **Sprint 8** | Production deploy (go live) — fix worker Playwright image, provision Railway, wire external accounts, live smoke test |
 
 ---
 

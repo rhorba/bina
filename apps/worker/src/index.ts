@@ -10,6 +10,12 @@ if (!DATABASE_URL) throw new Error("DATABASE_URL is required");
 
 const boss = new PgBoss(DATABASE_URL);
 
+// Kill-switch for the live scraper (marchespublics.gov.ma). Defaults OFF — a fresh
+// deploy must not start hitting the real government site until explicitly verified
+// end-to-end (Sprint 8, S8-09/S8-12). Never gates the admin CSV fallback import, which
+// is a separate manual path. Set SCRAPER_ENABLED=true once verified.
+const SCRAPER_ENABLED = process.env["SCRAPER_ENABLED"] === "true";
+
 boss.on("error", (err) => {
   console.error("[pg-boss] error:", err);
 });
@@ -18,6 +24,12 @@ async function registerWorkers() {
   // scraper.daily — nightly scrape + status refresh (CSV fallback is manual, admin-side)
   await boss.work(QUEUES.SCRAPER_DAILY, async (jobs) => {
     for (const job of jobs) {
+      if (!SCRAPER_ENABLED) {
+        console.log(
+          `[scraper.daily] job ${job.id} skipped — SCRAPER_ENABLED is not "true" (CSV fallback unaffected)`
+        );
+        continue;
+      }
       console.log("[scraper.daily] job received:", job.id);
       const result = await runDailyScrape();
       console.log(

@@ -45,7 +45,12 @@ export async function scrapeMarchesPublics(
   let updated = 0;
   const errorDetails: { externalId?: string; message: string }[] = [];
 
-  const browser = options.fetchPage ? null : await chromium.launch({ headless: true });
+  // --no-sandbox is required to run Chromium as a non-root container user (the worker's
+  // Docker image drops root before this runs) — safe here since the scraper only ever
+  // navigates to the fixed, trusted marchespublics.gov.ma URL, never arbitrary/user input.
+  const browser = options.fetchPage
+    ? null
+    : await chromium.launch({ headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] });
 
   const fetchPage =
     options.fetchPage ??

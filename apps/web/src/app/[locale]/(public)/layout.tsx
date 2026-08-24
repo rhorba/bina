@@ -11,18 +11,18 @@ export default async function PublicLayout({ children, params }: Props) {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="h-14 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="max-w-6xl mx-auto h-full flex items-center justify-between px-5">
+        <div className="max-w-6xl mx-auto h-full flex items-center justify-between gap-2 px-4 sm:px-5">
           <Link
             href={`/${locale}`}
-            className="flex items-center gap-2 font-bold text-[var(--color-primary)]"
+            className="flex items-center gap-2 font-bold text-[var(--color-primary)] shrink-0"
           >
             <span className="text-lg">بناء</span>
             <span>Bina</span>
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href={`/${locale}/tenders`}
-              className="text-sm font-medium text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition"
+              className="hidden sm:inline-flex text-sm font-medium text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition"
             >
               Radar des marchés
             </Link>
@@ -34,7 +34,7 @@ export default async function PublicLayout({ children, params }: Props) {
             </Link>
             <Link
               href={`/${locale}/auth/signup`}
-              className="text-sm font-medium bg-[var(--color-primary)] text-[var(--color-primary-fg)] rounded-lg px-4 py-2 hover:bg-[var(--color-primary-mid)] transition"
+              className="text-sm font-medium bg-[var(--color-primary)] text-[var(--color-primary-fg)] rounded-lg px-3 sm:px-4 py-2 hover:bg-[var(--color-primary-mid)] transition whitespace-nowrap"
             >
               Créer un compte
             </Link>
@@ -43,7 +43,7 @@ export default async function PublicLayout({ children, params }: Props) {
       </header>
       <main className="flex-1">{children}</main>
       <footer className="py-6 border-t border-[var(--color-border)]">
-        <div className="max-w-6xl mx-auto px-5 text-center text-xs text-[var(--color-muted)]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-5 text-center text-xs text-[var(--color-muted)]">
           © {new Date().getFullYear()} Bina — بناء · Plateforme BTP Maroc
         </div>
       </footer>

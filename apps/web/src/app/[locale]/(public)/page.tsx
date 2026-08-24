@@ -6,13 +6,13 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
 
   return (
-    <div className="max-w-4xl mx-auto px-5 py-20 text-center">
+    <div className="max-w-4xl mx-auto px-4 sm:px-5 py-12 sm:py-20 text-center">
       {/* Hero */}
       <div className="inline-flex items-center gap-2 bg-[var(--color-accent)]/10 text-[var(--color-accent)] text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
         550 milliards MAD d'investissements BTP 2024–2030
       </div>
 
-      <h1 className="text-4xl font-bold text-[var(--color-foreground)] leading-tight mb-4">
+      <h1 className="text-3xl sm:text-4xl font-bold text-[var(--color-foreground)] leading-tight mb-4">
         Trouvez les marchés.
         <br />
         <span className="text-[var(--color-primary)]">Formez votre équipe.</span>
@@ -20,22 +20,22 @@ export default async function HomePage({ params }: Props) {
         Gagnez ensemble.
       </h1>
 
-      <p className="text-lg text-[var(--color-muted)] max-w-2xl mx-auto mb-10">
+      <p className="text-base sm:text-lg text-[var(--color-muted)] max-w-2xl mx-auto mb-10">
         Bina agrège les appels d'offres de marchespublics.gov.ma, vous aide à former des
         groupements, et organise votre dossier réglementaire — spécialement conçu pour les PME BTP
         marocaines.
       </p>
 
-      <div className="flex items-center justify-center gap-4 mb-16">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-16">
         <Link
           href={`/${locale}/tenders`}
-          className="bg-[var(--color-primary)] text-[var(--color-primary-fg)] font-semibold rounded-lg px-6 py-3 hover:bg-[var(--color-primary-mid)] transition text-sm"
+          className="w-full sm:w-auto bg-[var(--color-primary)] text-[var(--color-primary-fg)] font-semibold rounded-lg px-6 py-3 hover:bg-[var(--color-primary-mid)] transition text-sm"
         >
           Explorer les marchés
         </Link>
         <Link
           href={`/${locale}/auth/signup`}
-          className="border border-[var(--color-border)] text-[var(--color-foreground)] font-semibold rounded-lg px-6 py-3 hover:bg-[var(--color-bg)] transition text-sm"
+          className="w-full sm:w-auto border border-[var(--color-border)] text-[var(--color-foreground)] font-semibold rounded-lg px-6 py-3 hover:bg-[var(--color-bg)] transition text-sm"
         >
           Commencer gratuitement
         </Link>

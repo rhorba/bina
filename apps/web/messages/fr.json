@@ -10,7 +10,9 @@
     "admin": "Administration",
     "logout": "Se déconnecter",
     "login": "Se connecter",
-    "signup": "Créer un compte"
+    "signup": "Créer un compte",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
   },
   "tender": {
     "title": "Appel d'offres",

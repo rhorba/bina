@@ -1,7 +1,9 @@
 "use client";
-import { Bell } from "lucide-react";
+import { Bell, Menu } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMobileNav } from "./mobile-nav-context.js";
 
 type Props = {
   locale: string;
@@ -21,6 +23,8 @@ const ALTERNATE_LOCALE: Record<string, string> = {
 
 export function TopBar({ locale, title, unreadCount = 0 }: Props) {
   const router = useRouter();
+  const t = useTranslations("nav");
+  const { toggle } = useMobileNav();
   const altLocale = ALTERNATE_LOCALE[locale] ?? "fr";
   const hasUnread = unreadCount > 0;
   const badge = unreadCount > 9 ? "9+" : String(unreadCount);
@@ -35,10 +39,20 @@ export function TopBar({ locale, title, unreadCount = 0 }: Props) {
   }
 
   return (
-    <header className="h-14 shrink-0 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)] px-5">
-      {/* Left: page title */}
-      <div className="text-sm font-semibold text-[var(--color-foreground)] truncate">
-        {title ?? "Bina"}
+    <header className="h-14 shrink-0 flex items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4 sm:px-5">
+      {/* Left: mobile menu toggle + page title */}
+      <div className="flex items-center gap-2 min-w-0">
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={t("openMenu")}
+          className="lg:hidden -ms-2 p-2.5 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-bg)] transition"
+        >
+          <Menu size={20} aria-hidden="true" />
+        </button>
+        <div className="text-sm font-semibold text-[var(--color-foreground)] truncate">
+          {title ?? "Bina"}
+        </div>
       </div>
 
       {/* Right: controls */}

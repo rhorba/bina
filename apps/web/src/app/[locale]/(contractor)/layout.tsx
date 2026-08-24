@@ -1,4 +1,5 @@
 import { getSession } from "@/auth/index.js";
+import { MobileNavProvider } from "@/components/app-shell/mobile-nav-context.js";
 import { Sidebar } from "@/components/app-shell/sidebar.js";
 import { TopBar } from "@/components/app-shell/top-bar.js";
 import { contractorProfiles, db } from "@bina/db";
@@ -35,12 +36,14 @@ export default async function ContractorLayout({ children, params }: Props) {
   const unread = await unreadCount(db, session.userId);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar locale={locale} userName={session.email} companyName={companyName} />
-      <div className="flex-1 flex flex-col min-w-0">
-        <TopBar locale={locale} unreadCount={unread} />
-        <main className="flex-1 overflow-y-auto bg-[var(--color-bg)] p-6">{children}</main>
+    <MobileNavProvider>
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar locale={locale} userName={session.email} companyName={companyName} />
+        <div className="flex-1 flex flex-col min-w-0">
+          <TopBar locale={locale} unreadCount={unread} />
+          <main className="flex-1 overflow-y-auto bg-[var(--color-bg)] p-4 sm:p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </MobileNavProvider>
   );
 }

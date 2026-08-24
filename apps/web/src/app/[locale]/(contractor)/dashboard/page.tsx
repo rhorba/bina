@@ -76,12 +76,12 @@ export default async function DashboardPage({ params }: Props) {
       </div>
 
       {/* Feature cards */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {COMING_SOON.map((f) => (
           <Link
             key={f.href}
             href={`/${locale}/${f.href}`}
-            className="bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] p-5 hover:border-[var(--color-primary-mid)] hover:shadow-sm transition group"
+            className="bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] p-4 sm:p-5 hover:border-[var(--color-primary-mid)] hover:shadow-sm transition group"
           >
             <div className="text-2xl mb-2">{f.icon}</div>
             <div className="font-semibold text-sm text-[var(--color-foreground)] group-hover:text-[var(--color-primary)]">

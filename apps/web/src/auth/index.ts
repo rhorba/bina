@@ -7,6 +7,7 @@ import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { authConfig } from "./config.js";
+import { provisionOAuthUser } from "./provision.js";
 
 // Same conditional-registration rule as auth/config.ts: only wire up Google when
 // real credentials exist. An unconditionally-registered Google() with empty-string
@@ -22,6 +23,26 @@ if (googleClientId && googleClientSecret) {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  callbacks: {
+    ...authConfig.callbacks,
+    async signIn({ user, account }) {
+      if (account?.provider !== "google") return true;
+      if (!user.email) return false;
+
+      const identity = await provisionOAuthUser(user.email, user.name);
+      if (!identity) return false;
+
+      // Mutating `user` here is what the jwt callback (auth/config.ts) reads
+      // from its `user` argument on this same initial sign-in — there's no
+      // adapter, so this is the only hand-off point from Google's transient
+      // profile id to our own DB identity.
+      user.id = identity.id;
+      (user as { role?: string }).role = identity.role;
+      (user as { contractorId?: string }).contractorId = identity.contractorId;
+
+      return true;
+    },
+  },
   providers: [
     ...oauthProviders,
     Credentials({

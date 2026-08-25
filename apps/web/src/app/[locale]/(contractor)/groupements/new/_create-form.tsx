@@ -28,10 +28,12 @@ const labelClass = "block text-sm font-medium text-[var(--color-foreground)] mb-
 type TenderOption = { id: string; title: string; region: string };
 
 export function CreateGroupementForm({
+  locale,
   tenders,
   mySpecialties,
   preselectTenderId,
 }: {
+  locale: string;
   tenders: TenderOption[];
   mySpecialties: string[];
   preselectTenderId?: string;
@@ -49,6 +51,7 @@ export function CreateGroupementForm({
       action={action}
       className="bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] p-5 space-y-4"
     >
+      <input type="hidden" name="locale" value={locale} />
       <div>
         <label htmlFor="tenderId" className={labelClass}>
           {t("tender")} *

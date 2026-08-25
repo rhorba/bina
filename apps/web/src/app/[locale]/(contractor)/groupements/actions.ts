@@ -54,6 +54,9 @@ export async function createGroupementAction(
     return { error: "Spécialité du mandataire requise." };
   }
 
+  const localeRaw = formData.get("locale");
+  const locale = localeRaw === "ar" ? "ar" : "fr";
+
   const targetBudgetMad = formData.get("targetBudgetMad");
   const parsed = createGroupementSchema.safeParse({
     tenderId: formData.get("tenderId"),
@@ -85,7 +88,7 @@ export async function createGroupementAction(
   });
 
   // redirect throws — must run outside the try/withUserContext callback
-  redirect(`/groupements/${groupementId}`);
+  redirect(`/${locale}/groupements/${groupementId}`);
 }
 
 export async function inviteCotraitantAction(formData: FormData): Promise<void> {

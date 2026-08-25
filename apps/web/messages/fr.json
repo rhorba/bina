@@ -1,4 +1,18 @@
 {
+  "dashboard": {
+    "welcome": "Bienvenue",
+    "welcomeWithCompany": "Bienvenue, {name}",
+    "subtitle": "Votre espace Bina — appels d'offres, groupements et dossier réglementaire.",
+    "complianceCompleteness": "Complétude du dossier réglementaire",
+    "featureTenders": "Radar marchés",
+    "featureTendersHint": "Appels d'offres publics",
+    "featureAlerts": "Mes alertes",
+    "featureAlertsHint": "Recherches sauvegardées",
+    "featureGroupements": "Groupements",
+    "featureGroupementsHint": "Former une équipe",
+    "featureDossier": "Mon dossier",
+    "featureDossierHint": "Documents de conformité"
+  },
   "nav": {
     "radar": "Radar des marchés",
     "groupements": "Mes groupements",
@@ -230,7 +244,8 @@
     "fnbtpCategory": {
       "premiere": "1ère catégorie",
       "deuxieme": "2ème catégorie",
-      "troisieme": "3ème catégorie"
+      "troisieme": "3ème catégorie",
+      "non_qualifie": "Non qualifié"
     },
     "complianceScore": "Complétude du dossier",
     "scoreComplete": "Dossier complet — tous les documents requis sont présents.",
@@ -439,7 +454,7 @@
       "title": "Import CSV de secours",
       "subtitle": "Si la structure du portail change, importez un export CSV des appels d'offres. Même traitement que le scraper.",
       "label": "Fichier CSV (export marchespublics)",
-      "hint": "Format attendu : colonnes externalId, title, maitreDOuvrage, region, type, submissionDeadline…",
+      "hint": "Format attendu : colonnes external_id, title, maitre_d_ouvrage, published_at, submission_deadline (obligatoires), plus type, region, budget_min_mad, budget_max_mad, specialties, fnbtp_category, description, dossier_url. Séparateur virgule ou point-virgule.",
       "import": "Importer le CSV",
       "importing": "Import en cours…",
       "success": "Import terminé : {inserted} ajoutés, {updated} mis à jour, {errors} erreurs.",

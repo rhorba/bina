@@ -1,20 +1,33 @@
 import { getSession } from "@/auth/index.js";
 import { contractorProfiles, db } from "@bina/db";
 import { eq } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 type Props = { params: Promise<{ locale: string }> };
-
-const COMING_SOON = [
-  { href: "tenders", icon: "🔍", label: "Radar marchés", sprint: "Sprint 2" },
-  { href: "alertes", icon: "🔔", label: "Mes alertes", sprint: "Sprint 3" },
-  { href: "groupements", icon: "🤝", label: "Groupements", sprint: "Sprint 4" },
-  { href: "dossier", icon: "📋", label: "Mon dossier", sprint: "Sprint 5" },
-];
 
 export default async function DashboardPage({ params }: Props) {
   const { locale } = await params;
   const session = await getSession();
+
+  if (session?.role === "admin") {
+    redirect(`/${locale}/admin`);
+  }
+
+  const t = await getTranslations("dashboard");
+
+  const FEATURES = [
+    { href: "tenders", icon: "🔍", label: t("featureTenders"), hint: t("featureTendersHint") },
+    { href: "alertes", icon: "🔔", label: t("featureAlerts"), hint: t("featureAlertsHint") },
+    {
+      href: "groupements",
+      icon: "🤝",
+      label: t("featureGroupements"),
+      hint: t("featureGroupementsHint"),
+    },
+    { href: "dossier", icon: "📋", label: t("featureDossier"), hint: t("featureDossierHint") },
+  ];
 
   let companyName: string | undefined;
   let complianceScore = 0;
@@ -32,18 +45,16 @@ export default async function DashboardPage({ params }: Props) {
       {/* Welcome */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-[var(--color-foreground)]">
-          Bienvenue{companyName ? `, ${companyName}` : ""}
+          {companyName ? t("welcomeWithCompany", { name: companyName }) : t("welcome")}
         </h1>
-        <p className="text-sm text-[var(--color-muted)] mt-1">
-          Votre espace Bina — les fonctionnalités arrivent sprint par sprint.
-        </p>
+        <p className="text-sm text-[var(--color-muted)] mt-1">{t("subtitle")}</p>
       </div>
 
       {/* Compliance score */}
       <div className="bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] p-5 mb-6">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-[var(--color-foreground)]">
-            Complétude du dossier réglementaire
+            {t("complianceCompleteness")}
           </span>
           <span
             className="text-sm font-bold"
@@ -77,7 +88,7 @@ export default async function DashboardPage({ params }: Props) {
 
       {/* Feature cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {COMING_SOON.map((f) => (
+        {FEATURES.map((f) => (
           <Link
             key={f.href}
             href={`/${locale}/${f.href}`}
@@ -87,7 +98,7 @@ export default async function DashboardPage({ params }: Props) {
             <div className="font-semibold text-sm text-[var(--color-foreground)] group-hover:text-[var(--color-primary)]">
               {f.label}
             </div>
-            <div className="text-xs text-[var(--color-muted)] mt-1">{f.sprint}</div>
+            <div className="text-xs text-[var(--color-muted)] mt-1">{f.hint}</div>
           </Link>
         ))}
       </div>

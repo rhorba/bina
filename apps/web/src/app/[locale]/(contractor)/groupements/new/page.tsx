@@ -51,6 +51,7 @@ export default async function NewGroupementPage({ params, searchParams }: Props)
       <p className="text-sm text-[var(--color-muted)] mb-6">{t("createSubtitle")}</p>
 
       <CreateGroupementForm
+        locale={locale}
         tenders={tenderOptions}
         mySpecialties={mySpecialties}
         preselectTenderId={tenderId}

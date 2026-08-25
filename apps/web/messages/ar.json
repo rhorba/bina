@@ -1,4 +1,18 @@
 {
+  "dashboard": {
+    "welcome": "مرحباً",
+    "welcomeWithCompany": "مرحباً، {name}",
+    "subtitle": "مساحتك في بناء — المناقصات، التجمعات والملف التنظيمي.",
+    "complianceCompleteness": "اكتمال الملف التنظيمي",
+    "featureTenders": "رادار المناقصات",
+    "featureTendersHint": "المناقصات العمومية",
+    "featureAlerts": "تنبيهاتي",
+    "featureAlertsHint": "عمليات البحث المحفوظة",
+    "featureGroupements": "التجمعات",
+    "featureGroupementsHint": "تشكيل فريق",
+    "featureDossier": "ملفي",
+    "featureDossierHint": "وثائق المطابقة"
+  },
   "nav": {
     "radar": "رادار المناقصات",
     "groupements": "مجموعاتي",
@@ -230,7 +244,8 @@
     "fnbtpCategory": {
       "premiere": "الفئة الأولى",
       "deuxieme": "الفئة الثانية",
-      "troisieme": "الفئة الثالثة"
+      "troisieme": "الفئة الثالثة",
+      "non_qualifie": "غير مؤهل"
     },
     "complianceScore": "اكتمال الملف",
     "scoreComplete": "الملف مكتمل — جميع الوثائق المطلوبة متوفرة.",
@@ -439,7 +454,7 @@
       "title": "استيراد CSV الاحتياطي",
       "subtitle": "إذا تغيّرت بنية البوابة، استورد ملف CSV لطلبات العروض. نفس معالجة المُجمِّع.",
       "label": "ملف CSV (تصدير marchespublics)",
-      "hint": "التنسيق المتوقّع: الأعمدة externalId، title، maitreDOuvrage، region، type، submissionDeadline…",
+      "hint": "التنسيق المتوقّع: الأعمدة external_id، title، maitre_d_ouvrage، published_at، submission_deadline (إلزامية)، بالإضافة إلى type، region، budget_min_mad، budget_max_mad، specialties، fnbtp_category، description، dossier_url. الفاصل: فاصلة أو فاصلة منقوطة.",
       "import": "استيراد ملف CSV",
       "importing": "جارٍ الاستيراد…",
       "success": "اكتمل الاستيراد: {inserted} مُضافة، {updated} مُحدَّثة، {errors} أخطاء.",

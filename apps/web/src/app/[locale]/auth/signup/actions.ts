@@ -4,10 +4,14 @@ import { hashPassword } from "@/lib/password.js";
 import { signUpSchema } from "@bina/core";
 import { contractorProfiles, db, users, withUserContext } from "@bina/db";
 import { eq } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
 
 export type SignUpState = { error: string } | null;
 
 export async function signUpAction(_prev: SignUpState, formData: FormData): Promise<SignUpState> {
+  const locale = formData.get("locale") === "ar" ? "ar" : "fr";
+  const t = await getTranslations({ locale, namespace: "auth.errors" });
+
   const parsed = signUpSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -17,7 +21,7 @@ export async function signUpAction(_prev: SignUpState, formData: FormData): Prom
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0]?.message ?? "Données invalides." };
+    return { error: parsed.error.errors[0]?.message ?? t("unknown") };
   }
 
   const { email, password, name, companyName, phone } = parsed.data;
@@ -26,7 +30,7 @@ export async function signUpAction(_prev: SignUpState, formData: FormData): Prom
     where: eq(users.email, email.toLowerCase()),
   });
   if (existing) {
-    return { error: "Cette adresse e-mail est déjà utilisée." };
+    return { error: t("emailTaken") };
   }
 
   const passwordHash = await hashPassword(password);
@@ -45,7 +49,7 @@ export async function signUpAction(_prev: SignUpState, formData: FormData): Prom
     .returning();
 
   if (!user) {
-    return { error: "Une erreur est survenue. Veuillez réessayer." };
+    return { error: t("unknown") };
   }
 
   // RLS: contractor_profiles INSERT requires app.current_user_id = user_id
@@ -64,7 +68,7 @@ export async function signUpAction(_prev: SignUpState, formData: FormData): Prom
   await signIn("credentials", {
     email,
     password,
-    redirectTo: "/fr/dashboard",
+    redirectTo: `/${locale}/dashboard`,
   });
 
   return null;

@@ -319,10 +319,27 @@
     "google": "Google",
     "emailVerification": "Vérification de l'e-mail",
     "emailVerificationSent": "Un lien de vérification a été envoyé à {email}.",
+    "loginTagline": "Radar marchés · Groupements · Dossier réglementaire",
+    "signupTagline": "La plateforme des PME BTP au Maroc",
+    "loginPending": "Connexion…",
+    "signupPending": "Création du compte…",
+    "createMyAccount": "Créer mon compte",
+    "optional": "optionnel",
+    "namePlaceholder": "Hassan Benali",
+    "companyNamePlaceholder": "Bati-Pro SARL",
+    "emailPlaceholder": "vous@entreprise.ma",
+    "phonePlaceholder": "+212 6 00 00 00 00",
+    "passwordPlaceholder": "8 caractères minimum",
+    "authErrorTitle": "Erreur d'authentification",
+    "backToLogin": "Retour à la connexion",
     "errors": {
       "invalidCredentials": "E-mail ou mot de passe incorrect",
       "emailTaken": "Cette adresse e-mail est déjà utilisée",
-      "unknown": "Une erreur est survenue. Veuillez réessayer."
+      "unknown": "Une erreur est survenue. Veuillez réessayer.",
+      "Configuration": "Erreur de configuration du serveur. Contactez le support.",
+      "AccessDenied": "Accès refusé.",
+      "Verification": "Le lien de vérification a expiré.",
+      "Default": "Une erreur d'authentification est survenue."
     }
   },
   "profile": {

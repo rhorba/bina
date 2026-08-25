@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { SignUpForm } from "./_form";
 
@@ -5,6 +6,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 export default async function SignUpPage({ params }: Props) {
   const { locale } = await params;
+  const t = await getTranslations("auth");
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] px-4 py-12">
@@ -16,14 +18,15 @@ export default async function SignUpPage({ params }: Props) {
               Bina
             </span>
           </div>
-          <p className="text-sm text-[var(--color-muted)]">La plateforme des PME BTP au Maroc</p>
+          <p className="text-sm text-[var(--color-muted)]">{t("signupTagline")}</p>
         </div>
 
         <div className="bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] p-8 shadow-sm">
           <h1 className="text-xl font-semibold text-[var(--color-foreground)] mb-6">
-            Créer un compte
+            {t("signup")}
           </h1>
           <SignUpForm
+            locale={locale}
             googleEnabled={Boolean(
               process.env["AUTH_GOOGLE_ID"] && process.env["AUTH_GOOGLE_SECRET"]
             )}
@@ -31,12 +34,12 @@ export default async function SignUpPage({ params }: Props) {
         </div>
 
         <p className="text-center text-sm text-[var(--color-muted)] mt-6">
-          Déjà un compte ?{" "}
+          {t("hasAccount")}{" "}
           <Link
             href={`/${locale}/auth/login`}
             className="text-[var(--color-accent)] font-medium hover:underline"
           >
-            Se connecter
+            {t("login")}
           </Link>
         </p>
       </div>

@@ -1,22 +1,25 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { useActionState } from "react";
 import { loginAction } from "./actions";
 
-type Props = { googleEnabled: boolean };
+type Props = { locale: string; googleEnabled: boolean };
 
-export function LoginForm({ googleEnabled }: Props) {
+export function LoginForm({ locale, googleEnabled }: Props) {
+  const t = useTranslations("auth");
   const [state, action, isPending] = useActionState(loginAction, null);
 
   return (
     <div className="space-y-5">
       <form action={action} className="space-y-4">
+        <input type="hidden" name="locale" value={locale} />
         <div>
           <label
             htmlFor="email"
             className="block text-sm font-medium text-[var(--color-foreground)] mb-1.5"
           >
-            Adresse e-mail
+            {t("email")}
           </label>
           <input
             id="email"
@@ -25,7 +28,7 @@ export function LoginForm({ googleEnabled }: Props) {
             required
             autoComplete="email"
             className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3.5 py-2.5 text-sm text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 transition"
-            placeholder="vous@entreprise.ma"
+            placeholder={t("emailPlaceholder")}
           />
         </div>
 
@@ -34,7 +37,7 @@ export function LoginForm({ googleEnabled }: Props) {
             htmlFor="password"
             className="block text-sm font-medium text-[var(--color-foreground)] mb-1.5"
           >
-            Mot de passe
+            {t("password")}
           </label>
           <input
             id="password"
@@ -58,7 +61,7 @@ export function LoginForm({ googleEnabled }: Props) {
           disabled={isPending}
           className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-mid)] text-[var(--color-primary-fg)] font-medium text-sm rounded-lg px-4 py-2.5 transition disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isPending ? "Connexion…" : "Se connecter"}
+          {isPending ? t("loginPending") : t("login")}
         </button>
       </form>
 
@@ -69,13 +72,13 @@ export function LoginForm({ googleEnabled }: Props) {
               <div className="w-full border-t border-[var(--color-border)]" />
             </div>
             <div className="relative flex justify-center text-xs text-[var(--color-muted)] bg-[var(--color-surface)] px-2">
-              Ou continuer avec
+              {t("orContinueWith")}
             </div>
           </div>
 
           <button
             type="button"
-            onClick={() => signIn("google", { callbackUrl: "/fr/dashboard" })}
+            onClick={() => signIn("google", { callbackUrl: `/${locale}/dashboard` })}
             className="w-full flex items-center justify-center gap-2.5 border border-[var(--color-border)] rounded-lg px-4 py-2.5 text-sm font-medium text-[var(--color-foreground)] hover:bg-[var(--color-bg)] transition"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
@@ -96,7 +99,7 @@ export function LoginForm({ googleEnabled }: Props) {
                 d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58Z"
               />
             </svg>
-            Google
+            {t("google")}
           </button>
         </>
       )}

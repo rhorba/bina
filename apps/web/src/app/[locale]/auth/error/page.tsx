@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 type Props = {
@@ -5,17 +6,14 @@ type Props = {
   searchParams: Promise<{ error?: string }>;
 };
 
-const ERROR_MESSAGES: Record<string, string> = {
-  Configuration: "Erreur de configuration du serveur. Contactez le support.",
-  AccessDenied: "Accès refusé.",
-  Verification: "Le lien de vérification a expiré.",
-  Default: "Une erreur d'authentification est survenue.",
-};
+const KNOWN_ERRORS = ["Configuration", "AccessDenied", "Verification"] as const;
 
 export default async function AuthErrorPage({ params, searchParams }: Props) {
   const { locale } = await params;
   const { error } = await searchParams;
-  const message = ERROR_MESSAGES[error ?? "Default"] ?? ERROR_MESSAGES.Default;
+  const t = await getTranslations({ locale, namespace: "auth" });
+  const key = KNOWN_ERRORS.find((e) => e === error) ?? "Default";
+  const message = t(`errors.${key}`);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] px-4">
@@ -38,14 +36,14 @@ export default async function AuthErrorPage({ params, searchParams }: Props) {
             </svg>
           </div>
           <h1 className="text-lg font-semibold text-[var(--color-foreground)] mb-2">
-            Erreur d'authentification
+            {t("authErrorTitle")}
           </h1>
           <p className="text-sm text-[var(--color-muted)] mb-6">{message}</p>
           <Link
             href={`/${locale}/auth/login`}
             className="inline-block bg-[var(--color-primary)] text-[var(--color-primary-fg)] font-medium text-sm rounded-lg px-5 py-2.5 hover:bg-[var(--color-primary-mid)] transition"
           >
-            Retour à la connexion
+            {t("backToLogin")}
           </Link>
         </div>
       </div>

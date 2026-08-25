@@ -319,10 +319,27 @@
     "google": "Google",
     "emailVerification": "تحقق من البريد الإلكتروني",
     "emailVerificationSent": "تم إرسال رابط التحقق إلى {email}.",
+    "loginTagline": "رادار المناقصات · التجمعات · الملف التنظيمي",
+    "signupTagline": "منصة مقاولي البناء الصغرى والمتوسطة في المغرب",
+    "loginPending": "جارٍ الاتصال…",
+    "signupPending": "جارٍ إنشاء الحساب…",
+    "createMyAccount": "إنشاء حسابي",
+    "optional": "اختياري",
+    "namePlaceholder": "حسن بنعلي",
+    "companyNamePlaceholder": "باتي-برو ش.م.م",
+    "emailPlaceholder": "you@company.ma",
+    "phonePlaceholder": "+212 6 00 00 00 00",
+    "passwordPlaceholder": "8 أحرف كحد أدنى",
+    "authErrorTitle": "خطأ في المصادقة",
+    "backToLogin": "العودة إلى تسجيل الدخول",
     "errors": {
       "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
       "emailTaken": "هذا البريد الإلكتروني مستخدم بالفعل",
-      "unknown": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      "unknown": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+      "Configuration": "خطأ في إعدادات الخادم. يرجى التواصل مع الدعم.",
+      "AccessDenied": "الوصول مرفوض.",
+      "Verification": "انتهت صلاحية رابط التحقق.",
+      "Default": "حدث خطأ أثناء المصادقة."
     }
   },
   "profile": {

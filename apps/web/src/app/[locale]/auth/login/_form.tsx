@@ -1,6 +1,6 @@
 "use client";
-import { useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { loginAction } from "./actions";
 

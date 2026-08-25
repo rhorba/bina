@@ -1,6 +1,6 @@
 "use client";
-import { useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { signUpAction } from "./actions";
 
@@ -74,7 +74,8 @@ export function SignUpForm({ locale, googleEnabled }: Props) {
             htmlFor="phone"
             className="block text-sm font-medium text-[var(--color-foreground)] mb-1.5"
           >
-            {t("phone")} <span className="text-[var(--color-muted)] font-normal">({t("optional")})</span>
+            {t("phone")}{" "}
+            <span className="text-[var(--color-muted)] font-normal">({t("optional")})</span>
           </label>
           <input
             id="phone"
